@@ -1,0 +1,41 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+
+
+<table class="table">
+  <h3 class="text-center">Teachers Pending</h3>
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col" style="width: 50px;">Image</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Address</th>
+      <th scope="col">Action</th>
+
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr scope="row">
+      {% for teacher in teachers %}
+      <td>{{ teacher.id }}</td>
+      <td style="width: 50px;"> <img src="{{MEDIA_URL}}{{teacher.image.url}}" alt="" style="width: 100%; height: auto;"> </td>
+      <td>{{ teacher.name }}</td>
+      <td>{{ teacher.email }}</td>
+      <td>{{ teacher.phone_number }}</td>
+      <td>Teacher Address</td>
+      <td>
+        <a href="{% url 'aprove_teacher' teacher.id %}" class="btn btn-success">Aprove</a>
+        <a href="#" class="btn btn-danger">Delete</a>
+      </td>
+
+    </tr>
+    {% endfor %}
+  </tbody>
+
+</table>
+
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+  <div class="col-lg-6 ">
+    <div class="card">
+      <div class="card-header">
+        <h4>Add Class Recordings</h4>
+      </div>
+      <div class="card-body">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+            {{ form.starttime.errors }}
+            {{ form.starttime.label_tag }}
+            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+
+              {{ form.starttime }}
+              <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+              </div>
+              {% if form.starttime.help_text %}
+                <small id="{{field.id_for_label}}" class="form-text text-muted">{{ form.starttime.help_text|safe }}</small>
+              {% endif %}
+            </div>
+
+            {{ form.endtime.errors }}
+            {{ form.endtime.label_tag }}
+            <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+
+              {{ form.endtime }}
+              <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+              </div>
+              {% if form.endtime.help_text %}
+                <small id="{{form.endtime.id_for_label}}" class="form-text text-muted">{{ form.endtime.help_text|safe }}</small>
+              {% endif %}
+            </div>
+
+          <div class="text-center">
+            <input type="submit" class="btn btn-success" value="Add">
+          </div>
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker1').datetimepicker({
+        format: 'HH:mm',
+        });
+
+    });
+    $(function () {
+        $('#datetimepicker2').datetimepicker({
+        format: 'HH:mm',
+        });
+    });
+</script>
+
+{% endblock %}

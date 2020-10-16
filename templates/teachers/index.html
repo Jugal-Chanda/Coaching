@@ -1,0 +1,51 @@
+{% extends "teachers/base.html" %}
+{% load teacher_extras %}
+{% block content %}
+<div class="card">
+  <h5 class="card-header">Class Routine</h5>
+  <div class="card-body pb-0">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th></th>
+          {% for classtime in classtimes %}
+          <th class="text-capitalize">{{ classtime.starttime }}-{{ classtime.endtime }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for key, links in classroutine.items %}
+          <tr>
+            <th>{{ key }}</th>
+            {% for link in links %}
+            <td><a href="{{link.url}}" target="_blank">{{link.subject.name}}{{link.subject.batch.name|batch_filter}}</a></td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="card mt-1">
+
+  <h5 class="card-header">Recorded Vedio</h5>
+  <div class="card-body pb-0">
+    <div class="" id="recent_vedios">
+      {% for subject in subjects %}
+      <div class="bg-light mb-1">
+        <a href="{% url 'vedio_links_teachers' subject.id %}" class="btn btn-link" target="_blank">{{ subject.name }}</a>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+{% endblock %}

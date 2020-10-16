@@ -1,0 +1,65 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+  <div class="col-md-2">
+    <img src="{{MEDIA_URL}}{{user.image.url}}" alt="" style="width:100%; height: auto;">
+  </div>
+
+</div>
+<div class="row justify-content-center mt-2">
+  <div class="col-lg-4">
+    <form class="" method="post">
+      {% csrf_token %}
+      <table class="table">
+        <tbody>
+          <tr>
+            <td>Name</td>
+            <td>{{ user.name }}</td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td>{{ user.email }}</td>
+          </tr>
+          <tr>
+            <td>Phone</td>
+            <td>{{ user.phone_number }}</td>
+          </tr>
+          <tr>
+            <td>Address</td>
+            <td>{{ user.address }}</td>
+          </tr>
+          <tr>
+            <td>Batch</td>
+            <td>
+              <div class="form-group">
+                <input type="text" name="user_id" value="{{ user.id }}" hidden>
+                <select class="form-control" name="batch_id">
+                  {% for batch in batches %}
+                    <option value="{{ batch.id }}">{{ batch.name }}</option>
+                  {% endfor %}
+                </select>
+
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="text-center">
+              <input type="submit" name="" value="Aprove">
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </form>
+
+
+  </div>
+
+</div>
+
+
+{% endblock %}

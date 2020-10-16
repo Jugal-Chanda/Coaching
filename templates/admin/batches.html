@@ -1,0 +1,30 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="card">
+  <div class="card-head">
+    <h4>All batches</h4>
+  </div>
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Batch Name</th>
+          <th scope="col">Capacity</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for batch in batches %}
+        <tr scope="row">
+          <td>{{ batch.name }}</td>
+          <td>{{ batch.capacity }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+
+</div>
+
+{% endblock %}

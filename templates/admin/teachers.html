@@ -1,0 +1,33 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+
+<table class="table">
+  <h3 class="text-center">Aproved teachers</h3>
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col" style="width: 50px;">Image</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Address</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {% for teacher in teachers %}
+    <tr scope="row">
+      <td>{{ teacher.id }}</td>
+      <td style="width: 50px;"> <img src="{{MEDIA_URL}}{{teacher.image.url}}" alt="" style="width: 100%; height: auto;"> </td>
+      <td>{{ teacher.name }}</td>
+      <td>{{ teacher.email }}</td>
+      <td>{{ teacher.phone_number }}</td>
+      <td>Teacher Address</td>
+
+    </tr>
+    {% endfor %}
+  </tbody>
+
+</table>
+{% endblock %}

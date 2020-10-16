@@ -1,0 +1,41 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+
+
+<table class="table">
+  <h3 class="text-center">Aproved Students</h3>
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col" style="width: 50px;">Image</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Address</th>
+      <th scope="col">Action</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {% for student in students %}
+    <tr scope="row" class="{% if not student.payment %}bg-light{% endif %}">
+      <td>{{ student.id }}</td>
+      <td style="width: 50px;"> <img src="{{MEDIA_URL}}{{student.image.url}}" alt="" style="width: 100%; height: auto;"> </td>
+      <td>{{ student.name }}</td>
+      <td>{{ student.email }}</td>
+      <td>{{ student.phone_number }}</td>
+      <td>Student Address</td>
+      <td>
+        {% if not student.payment %}
+        <a href="{% url 'student_paid' student.id %}" class="btn btn-success"  >Paid</a>
+        {% endif %}    
+
+        <a href="{% url 'delete_student' student.id %}" class="btn btn-danger">Delete</a> </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+
+</table>
+
+{% endblock %}

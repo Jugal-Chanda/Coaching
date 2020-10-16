@@ -1,0 +1,30 @@
+{% extends "teachers/base.html" %}
+{% block content %}
+<div class="row">
+  {% if vedios %}
+    {% for vedio in vedios %}
+    <div class="col-md-6 col-12 my-1 px-1">
+      <div class="" style="width: 100%">
+        <iframe width="100%" height="315" src="https://www.youtube.com/embed/{{ vedio.vedio_id }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="bg-light p-2 text-center">
+          <h5>{{ vedio.title }}({{ vedio.classdate }})</h5>
+        </div>
+
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="col-md-12 col-12 my-1 px-1">
+      <div class="" style="width: 100%">
+
+        <div class="bg-light p-2 text-center">
+          <h4>No Recorded Vedio Uploaded</h4>
+        </div>
+
+      </div>
+    </div>
+    {% endif %}
+
+
+</div>
+{% endblock %}
