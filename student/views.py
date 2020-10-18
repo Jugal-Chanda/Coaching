@@ -47,7 +47,7 @@ def aprove_student(request,id):
                 user = User.objects.get(pk=id)
                 if user:
                     context['user'] = user
-                    batches = Batch.objects.filter(capacity__gt = enrolled)
+                    batches = Batch.objects.filter(capacity__gt = 0)
                     context['batches'] = batches
                 else:
                     messages.add_message(request, messages.ERROR, 'User not found. Something went to wrong')
