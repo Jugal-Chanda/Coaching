@@ -78,22 +78,17 @@ def index(request):
     context = {}
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'studenthome':
-            classtimes_temp = Classtime.objects.all()
-
-            classtimes_index = []
-            classtimes = []
-
-            for classtime in classtimes_temp:
-                classtimes_index.append(classtime.id)
-                classtimes.append(classtime)
-
-            context['classtimes'] = classtimes
+            days = ['Sat','Sun','Mon','Tue','Wed','Thu','Fri']
+            context['days'] = days # For table Heading render this
 
             context['user'] = request.user
             user = request.user
+            #Select all subject according to user batch
             batch = user.batch
             subjects = batch.subject_set.all()
+            context['subjects'] = subjects # For vedios we need to render it also
 
+            # get all classlinks according to subjects  wchich is from today to next 1 week
             classlinks = ClassLink.objects.none()
             today_date = date.today()
             after_week = today_date + timedelta(6)
@@ -102,19 +97,20 @@ def index(request):
                 temp = subject.classlink_set.filter(classdate__gte = today_date,classdate__lte = after_week)
                 classlinks = classlinks | temp
 
-            l = len(classtimes_index)
-            days = ['Sat','Sun','Mon','Tue','Wed','Thu','Fri']
+            # Makign classroutine that contains classtime as a key and in every cell contains a classlink
             classroutine = {}
-            for day in days:
-                classroutine[day] = ["" for i in range(l)]
             for classlink in classlinks:
-                d = classlink.classdate.strftime("%a")
-                t = classtimes_index.index(classlink.classtime.id)
-                classroutine[d][t] = classlink
+                d = days.index(classlink.classdate.strftime("%a")) # find the days index from days list
+                t = classlink.classtime
+                if t in classroutine.keys():
+                    classroutine[t][d] = classlink
+                else:
+                    classroutine[t] = ["" for i in range(7)]
+                    classroutine[t][d] = classlink
 
-            context['days'] = days
+
             context['classroutine'] =  classroutine
-            context['subjects'] = subjects
+
             return render(request,'students/index.html',context)
         else:
             return redirect(auth_fun.redirect_permision(request))
