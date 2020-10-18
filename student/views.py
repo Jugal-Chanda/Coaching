@@ -78,43 +78,37 @@ def index(request):
     context = {}
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'studenthome':
-            classtimes_temp = Classtime.objects.all()
-
-            classtimes_index = []
-            classtimes = []
-
-            for classtime in classtimes_temp:
-                classtimes_index.append(classtime.id)
-                classtimes.append(classtime)
-
-            context['classtimes'] = classtimes
-
+            days = ['Sat','Sun','Mon','Tue','Wed','Thu','Fri']
+            context['days'] = days
             context['user'] = request.user
+
             user = request.user
+            # Selecting all subject according to batch
             batch = user.batch
             subjects = batch.subject_set.all()
+            context['subjects'] = subjects # For showing vedios we need to render subjects also
 
-            classlinks = ClassLink.objects.none()
+            # Getting all classlinks according to subject for next 1 weeks
             today_date = date.today()
             after_week = today_date + timedelta(6)
-
+            classlinks = ClassLink.objects.none()
             for subject in subjects:
                 temp = subject.classlink_set.filter(classdate__gte = today_date,classdate__lte = after_week)
                 classlinks = classlinks | temp
 
-            l = len(classtimes_index)
-            days = ['Sat','Sun','Mon','Tue','Wed','Thu','Fri']
+            # Making classroutine. Every cell contains a classlink object
             classroutine = {}
-            for day in days:
-                classroutine[day] = ["" for i in range(l)]
             for classlink in classlinks:
-                d = classlink.classdate.strftime("%a")
-                t = classtimes_index.index(classlink.classtime.id)
-                classroutine[d][t] = classlink
-
-            context['days'] = days
+                d = days.index(classlink.classdate.strftime("%a"))
+                t = classlink.classtime
+                if t in classroutine.keys():
+                    classroutine[t][d] = classlink
+                else:
+                    classroutine[t] = ["" for i in range(7)]
+                    classroutine[t][d] = classlink
+            print(classroutine)
             context['classroutine'] =  classroutine
-            context['subjects'] = subjects
+
             return render(request,'students/index.html',context)
         else:
             return redirect(auth_fun.redirect_permision(request))

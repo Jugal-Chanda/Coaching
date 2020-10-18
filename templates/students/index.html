@@ -8,8 +8,8 @@
       <thead>
         <tr>
           <th></th>
-          {% for classtime in classtimes %}
-          <th class="text-capitalize">{{ classtime.starttime }}-{{ classtime.endtime }}</th>
+          {% for day in days %}
+          <th class="text-capitalize">{{ day }}</th>
           {% endfor %}
         </tr>
       </thead>
