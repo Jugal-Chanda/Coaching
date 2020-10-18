@@ -79,7 +79,7 @@ def index(request):
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'studenthome':
             days = ['Sat','Sun','Mon','Tue','Wed','Thu','Fri']
-            context['days'] = days
+            context['days'] = days # for table heading render days
             context['user'] = request.user
 
             user = request.user
@@ -99,14 +99,13 @@ def index(request):
             # Making classroutine. Every cell contains a classlink object
             classroutine = {}
             for classlink in classlinks:
-                d = days.index(classlink.classdate.strftime("%a"))
+                d = days.index(classlink.classdate.strftime("%a")) # find the index number from days array based on classdate day
                 t = classlink.classtime
                 if t in classroutine.keys():
                     classroutine[t][d] = classlink
                 else:
-                    classroutine[t] = ["" for i in range(7)]
+                    classroutine[t] = ["" for i in range(7)] # if classtime not in classroutine keys values then initiate a list for this classtime
                     classroutine[t][d] = classlink
-            print(classroutine)
             context['classroutine'] =  classroutine
 
             return render(request,'students/index.html',context)

@@ -16,7 +16,7 @@
       <tbody>
         {% for key, links in classroutine.items %}
           <tr>
-            <th>{{ key }}</th>
+            <th>{{ key.starttime }}-{{ key.endtime }}</th>
             {% for link in links %}
             <td><a href="{{link.url}}" target="_blank">{{link.subject.name}}{{link.teacher.name|teacher_filter}}</a></td>
             {% endfor %}
