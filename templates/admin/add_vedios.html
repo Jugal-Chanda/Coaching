@@ -17,6 +17,24 @@
         {% endif %}
         <form method="post" enctype="multipart/form-data">
           {% csrf_token %}
+          <div class="form-group">
+            <label for="batch_select">Select a batch</label>
+            <select class="form-control" name="batch" id="batch_select">
+              <option value="0"></option>
+              {% for batch in batches %}
+              <option value="{{ batch.id }}">{{batch.name}}</option>
+              {% endfor %}
+
+            </select>
+
+          </div>
+          <div class="form-group">
+            <label for="subject_select">Select a Subject</label>
+            <select class="form-control" name="subject" id="subject_select">
+              <option value=""></option>
+            </select>
+
+          </div>
           {% for field in form %}
             <div class="form-group">
               {{ field.errors }}
@@ -38,6 +56,27 @@
   </div>
 
 </div>
+{% endblock %}
 
+{% block js_script %}
+<script type="text/javascript">
+  $("#batch_select").change(function(){
+    var batch_id = $(this).children("option:selected").val();
+    $.ajax({
+      url: "{% url 'batch_to_subjects' %}",
+      data: {
+        'batch_id': batch_id,
+      },
+      dataType: 'json',
+      success: function (data) {
+        parse_data = jQuery.parseJSON(data)
+        $.each(parse_data, function( index, value ) {
+          $('#subject_select').append('<option value=' + value.pk + '>' + value.fields.name +'</option>');
+        });
+
+      }
+    });
+  });
+</script>
 
 {% endblock %}

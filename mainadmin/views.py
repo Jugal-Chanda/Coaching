@@ -179,6 +179,7 @@ def add_vedio(request):
                     context['form'] = form
                     return redirect('add_vedio')
             else:
+                context['batches'] = Batch.objects.all()
                 context['form'] = add_vedio_form()
             return render(request,'admin/add_vedios.html',context)
         else:
