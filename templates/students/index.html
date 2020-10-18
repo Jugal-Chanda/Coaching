@@ -8,15 +8,15 @@
       <thead>
         <tr>
           <th></th>
-          {% for classtime in classtimes %}
-          <th class="text-capitalize">{{ classtime.starttime }}-{{ classtime.endtime }}</th>
+          {% for day in days %}
+          <th class="text-capitalize">{{ day }}</th>
           {% endfor %}
         </tr>
       </thead>
       <tbody>
         {% for key, links in classroutine.items %}
           <tr>
-            <th>{{ key }}</th>
+            <th>{{ key.starttime }} - {{ key.endtime }}</th>
             {% for link in links %}
             <td><a href="{{link.url}}" target="_blank">{{link.subject.name}}{{link.teacher.name|teacher_filter}}</a></td>
             {% endfor %}
