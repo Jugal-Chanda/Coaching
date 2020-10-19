@@ -7,6 +7,15 @@ from django.http import HttpResponse
 
 # Create your views here.
 
+def subject_to_classlink(request):
+    data = {}
+    if request.GET:
+        subject_id = request.GET.get('subject_id')
+        subject = Subject.objects.get(pk = subject_id)
+        classlinks = subject.classlink_set.all()
+        data = serializers.serialize('json', classlinks)
+        print(data)
+    return JsonResponse(data,safe=False)
 
 def batch_to_subjects(request):
     data = {}

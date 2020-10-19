@@ -5,8 +5,9 @@ from accounts import auth_fun
 from accounts.forms import addBatchForm
 # from accounts.models import Batch
 from classlinks.forms import add_subject_form,add_class_time_form,add_class_form
-from vedios.forms import add_vedio_form
+from vedios.models import Vedio
 from django.contrib import messages
+from classlinks.models import ClassLink
 
 
 def index(request):
@@ -170,17 +171,19 @@ def add_vedio(request):
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'adminHome':
             if request.POST:
-                form = add_vedio_form(request.POST)
-                if form.is_valid():
-                    vedio = form.save()
-                    messages.add_message(request, messages.SUCCESS, "Vedio added")
-                    return redirect('add_vedio')
-                else:
-                    context['form'] = form
-                    return redirect('add_vedio')
+                classlink_id = request.POST.get('class')
+                vedio_title = request.POST.get('title')
+                vedio_url = request.POST.get('url')
+                classlink = ClassLink.objects.get(pk=classlink_id)
+                vedio = Vedio()
+                vedio.classlink = classlink
+                vedio.title = vedio_title
+                vedio.url = vedio_url
+                vedio.save()
+                messages.add_message(request, messages.SUCCESS, "Vedio added")
+                return redirect('add_vedio')
             else:
                 context['batches'] = Batch.objects.all()
-                context['form'] = add_vedio_form()
             return render(request,'admin/add_vedios.html',context)
         else:
             return redirect(auth_fun.redirect_permision(request))
