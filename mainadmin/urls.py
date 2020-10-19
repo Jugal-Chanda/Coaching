@@ -13,6 +13,7 @@ urlpatterns = [
 
     path('batch/add/',views.add_batch,name="add_batch"),
     path('batches',views.all_batches,name="all_batches"),
+    path('batches/<int:id>',views.batch_student,name="batch_student"),
     path('class/time/add',views.add_class_time,name="add_class_time"),
     path('class/add/',views.add_class,name="add_class"),
     #

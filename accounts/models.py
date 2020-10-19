@@ -63,7 +63,7 @@ class User(AbstractBaseUser):
     student_aprove = models.BooleanField(default=False)
     address = models.CharField(max_length=255,blank=False,default="")
     payment = models.BooleanField(default = False)
-    batch = models.OneToOneField(Batch,on_delete=models.CASCADE,null = True)
+    batch = models.ForeignKey(Batch,on_delete=models.CASCADE,null = True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name','phone_number','image','address']
