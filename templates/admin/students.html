@@ -13,6 +13,7 @@
       <th scope="col">Email</th>
       <th scope="col">Phone</th>
       <th scope="col">Address</th>
+      <th scope="col">Batch</th>
       <th scope="col">Action</th>
 
     </tr>
@@ -25,11 +26,12 @@
       <td>{{ student.name }}</td>
       <td>{{ student.email }}</td>
       <td>{{ student.phone_number }}</td>
-      <td>Student Address</td>
+      <td>{{ student.address }}</td>
+      <td> <a href="{% url 'batch_student' student.batch.id  %}">{{ student.batch.name }}</a></td>
       <td>
         {% if not student.payment %}
         <a href="{% url 'student_paid' student.id %}" class="btn btn-success"  >Paid</a>
-        {% endif %}    
+        {% endif %}
 
         <a href="{% url 'delete_student' student.id %}" class="btn btn-danger">Delete</a> </td>
     </tr>

@@ -54,6 +54,19 @@ def all_batches(request):
         return redirect('login')
 
 
+def batch_student(request,id):
+    context = {}
+    if auth_fun.is_authenticate(request.user):
+        if auth_fun.redirect_permision(request) == 'adminHome':
+            batch = Batch.objects.get(pk=id)
+            students = batch.user_set.all()
+            context['students'] = students
+            return render(request,'admin/batch_student.html',context)
+        else:
+            return redirect(auth_fun.redirect_permision(request))
+    else:
+        return redirect('login')
+
 def students(request):
     context = {}
     if auth_fun.is_authenticate(request.user):

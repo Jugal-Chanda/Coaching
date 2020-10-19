@@ -9,15 +9,19 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">Batch Name</th>
-          <th scope="col">Capacity</th>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone</th>
         </tr>
       </thead>
       <tbody>
-        {% for batch in batches %}
+        {% for student in students %}
         <tr scope="row">
-          <td> <a href="{% url 'batch_student' batch.id  %}">{{ batch.name }}</a>   </td>
-          <td>{{ batch.capacity }}</td>
+          <td>{{ student.id }}</td>
+          <td>{{ student.name }}</td>
+          <td>{{ student.email }}</td>
+          <td>{{ student.phone_number }}</td>
         </tr>
         {% endfor %}
       </tbody>
