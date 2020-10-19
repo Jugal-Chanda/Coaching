@@ -17,18 +17,44 @@
         {% endif %}
         <form method="post" enctype="multipart/form-data">
           {% csrf_token %}
-          {% for field in form %}
-            <div class="form-group">
-              {{ field.errors }}
-              {{ field.label_tag }}
-              {{ field }}
-              {% if field.help_text %}
-                <small id="{{field.id_for_label}}" class="form-text text-muted">{{ field.help_text|safe }}</small>
-              {% endif %}
-            </div>
-          {% endfor %}
+          <div class="form-group">
+            <label for="batch_select">Select a batch</label>
+            <select class="form-control" name="batch" id="batch_select">
+              <option value="0"></option>
+              {% for batch in batches %}
+              <option value="{{ batch.id }}">{{batch.name}}</option>
+              {% endfor %}
+
+            </select>
+
+          </div>
+          <div class="form-group">
+            <label for="subject_select">Select a Subject</label>
+            <select class="form-control" name="subject" id="subject_select">
+              <option value=""></option>
+            </select>
+
+          </div>
+          <div class="form-group">
+            {{form.classlink.errors}}
+            <label for="class_select">Select a class</label>
+            <select class="form-control" name="class" id="class_select">
+              <option value=""></option>
+            </select>
+
+          </div>
+          <div class="form-group">
+            {{form.title.errors}}
+            <label for="id_title">Vedio Title</label>
+            <input type="text" name="title" class="form-control" placeholder="Enter a vedio title" maxlength="60" required="" id="id_title">
+          </div>
+          <div class="form-group">
+            {{form.url.errors}}
+            <label for="id_url">Vedio Url</label>
+            <input type="url" name="url" class="form-control" placeholder="Enter the vedio link here" required="" id="id_url">
+          </div>
           <div class="text-center">
-            <input type="submit" class="btn btn-success" value="Add">
+            <input type="submit" class="btn btn-success mt-1" value="Add">
           </div>
         </form>
 
@@ -38,6 +64,45 @@
   </div>
 
 </div>
+{% endblock %}
 
+{% block js_script %}
+<script type="text/javascript">
+  $("#batch_select").change(function(){
+    var batch_id = $(this).children("option:selected").val();
+    $.ajax({
+      url: "{% url 'batch_to_subjects' %}",
+      data: {
+        'batch_id': batch_id,
+      },
+      dataType: 'json',
+      success: function (data) {
+        parse_data = jQuery.parseJSON(data)
+        $.each(parse_data, function( index, value ) {
+          $('#subject_select').append('<option value=' + value.pk + '>' + value.fields.name +'</option>');
+        });
+
+      }
+    });
+  });
+
+  $("#subject_select").change(function(){
+    var subject_id = $(this).children("option:selected").val();
+    $.ajax({
+      url: "{% url 'subject_to_classlink' %}",
+      data: {
+        'subject_id': subject_id,
+      },
+      dataType: 'json',
+      success: function (data) {
+        parse_data = jQuery.parseJSON(data)
+        $.each(parse_data, function( index, value ) {
+          $('#class_select').append('<option value=' + value.pk + '>' + value.fields.classdate +'</option>');
+        });
+
+      }
+    });
+  });
+</script>
 
 {% endblock %}
