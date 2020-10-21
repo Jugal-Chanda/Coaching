@@ -9,6 +9,28 @@ from vedios.models import Vedio
 from django.contrib import messages
 from classlinks.models import ClassLink
 
+from notices.forms import add_notice_form
+
+
+def add_notice(request):
+    context = {}
+    if auth_fun.is_authenticate(request.user):
+        if auth_fun.redirect_permision(request) == 'adminHome':
+
+            if request.POST:
+                form = add_notice_form(request.POST)
+                if form.is_valid():
+                    notice = form.save()
+                    messages.add_message(request, messages.SUCCESS, notice.notice +' added successfully')
+            else:
+                form = add_notice_form()
+
+            context['form'] = form
+            return render(request,'admin/add_notice.html',context)
+        else:
+            return redirect(auth_fun.redirect_permision(request))
+    else:
+        return redirect('login')
 
 def index(request):
     context = {}
