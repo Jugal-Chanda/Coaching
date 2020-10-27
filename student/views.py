@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from accounts.models import User,Batch
 from accounts import auth_fun
 from classlinks.models import Classtime,ClassLink,Subject
+from notices.models import Notice
 from datetime import datetime, timedelta,date
 # # Create your views here.
 # #**********  Student View **********************
@@ -78,6 +79,16 @@ def index(request):
     context = {}
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'studenthome':
+            today_date = date.today()
+            after_week = today_date + timedelta(6)
+
+            #rendering notices for this student/user
+            notices = Notice.objects.filter(published_at__lte = today_date)
+            notices_all = notices.filter(batch=None) # find all notice that assign for all
+            notice_batch = notices.filter(batch=request.user.batch) # find all notice for this batch
+            notice_all = notices_all | notice_batch
+            context['notices'] = notice_all
+
             days = ['Sat','Sun','Mon','Tue','Wed','Thu','Fri']
             context['days'] = days # For table Heading render this
 
@@ -90,8 +101,7 @@ def index(request):
 
             # get all classlinks according to subjects  wchich is from today to next 1 week
             classlinks = ClassLink.objects.none()
-            today_date = date.today()
-            after_week = today_date + timedelta(6)
+
 
             for subject in subjects:
                 temp = subject.classlink_set.filter(classdate__gte = today_date,classdate__lte = after_week)

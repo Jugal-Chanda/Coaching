@@ -17,16 +17,34 @@
         {% endif %}
         <form method="post" enctype="multipart/form-data">
           {% csrf_token %}
-          {% for field in form %}
-            <div class="form-group">
-              {{ field.errors }}
-              {{ field.label_tag }}
-              {{ field }}
-              {% if field.help_text %}
-                <small id="{{field.id_for_label}}" class="form-text text-muted">{{ field.help_text|safe }}</small>
-              {% endif %}
+          <div class="form-group">
+            {{ form.notice.errors }}
+            {{ form.notice.label_tag }}
+            {{ form.notice }}
+            {% if form.notice.help_text %}
+              <small id="{{form.notice.id_for_label}}" class="form-text text-muted">{{ form.notice.help_text|safe }}</small>
+            {% endif %}
+          </div>
+          <div class="form-group">
+            {{ form.batch.errors }}
+            {{ form.batch.label_tag }}
+            {{ form.batch }}
+            {% if form.batch.help_text %}
+              <small id="{{form.batch.id_for_label}}" class="form-text text-muted">{{ form.published_at.help_text|safe }}</small>
+            {% endif %}
+          </div>
+          {{ form.published_at.errors }}
+          {{ form.published_at.label_tag }}
+          <div class="input-group date" id="datetimepicker1" data-target-input="nearest">          
+
+            {{ form.published_at }}
+            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
             </div>
-          {% endfor %}
+            {% if form.published_at.help_text %}
+              <small id="{{form.published_at.id_for_label}}" class="form-text text-muted">{{ form.published_at.help_text|safe }}</small>
+            {% endif %}
+          </div>
           <div class="text-center">
             <input type="submit" class="btn btn-success" value="Add">
           </div>
@@ -38,6 +56,15 @@
   </div>
 
 </div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker1').datetimepicker({
+        format: 'DD/MM/YYYY',
+      });
+
+    });
+</script>
 
 
 {% endblock %}
