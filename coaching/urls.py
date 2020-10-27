@@ -27,5 +27,7 @@ urlpatterns = [
     # path('class/', include('classlinks.urls')),
     path('vedios/', include('vedios.urls')),
     path('', include('frontend.urls')),
+    # path('notifications/', include('notify.urls', 'notifications')),
+
 ]
 urlpatterns = urlpatterns + static(settings.MEDIA_URL,document_root =settings.MEDIA_ROOT)

@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'vedios',
     'classlinks',
     'frontend',
-    'notices'
+    'notices',
+    'notify'
 ]
 
 MIDDLEWARE = [
