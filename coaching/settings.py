@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'classlinks',
     'frontend',
     'notices',
-    'notify'
+    'notification'
 ]
 
 MIDDLEWARE = [
