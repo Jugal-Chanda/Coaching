@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'mainadmin',
     'student',
     'teacher',
@@ -48,7 +49,8 @@ INSTALLED_APPS = [
     'vedios',
     'classlinks',
     'frontend',
-    'notices'
+    'notices',
+    'notification'
 ]
 
 MIDDLEWARE = [

@@ -4,10 +4,12 @@ from accounts import auth_fun
 from classlinks.models import Classtime,ClassLink,Subject
 from notices.models import Notice
 from datetime import datetime, timedelta,date
+from notification.models import Notification
 # # Create your views here.
 # #**********  Student View **********************
 # #==============================================
 #
+
 
 def students_pending(request):
     context = {}
@@ -75,12 +77,37 @@ def delete_student(request,id):
         return redirect('login')
 
 
+def notifications(request):
+    context = {}
+    if auth_fun.is_authenticate(request.user):
+        if auth_fun.redirect_permision(request) == 'studenthome':
+            notifications = request.user.notification_set.order_by('-created_at')
+            nootification_count = notifications.filter(read = False).count()
+            context['notifications'] = notifications
+            context['nootification_count'] = nootification_count
+            notifications.update(read = True)
+            return render(request,'students/notifications.html',context)
+        else:
+            return redirect(auth_fun.redirect_permision(request))
+    else:
+        return redirect('login')
+
+
 def index(request):
     context = {}
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'studenthome':
             today_date = date.today()
             after_week = today_date + timedelta(6)
+            user = request.user
+
+            #For showing notifications
+            notifications = user.notification_set.order_by('created_at')
+            nootification_count = notifications.filter(read = False).count()
+            context['notifications'] = notifications
+            context['nootification_count'] = nootification_count
+
+
 
             #rendering notices for this student/user
             notices = Notice.objects.filter(published_at__lte = today_date)
@@ -93,7 +120,7 @@ def index(request):
             context['days'] = days # For table Heading render this
 
             context['user'] = request.user
-            user = request.user
+
             #Select all subject according to user batch
             batch = user.batch
             subjects = batch.subject_set.all()

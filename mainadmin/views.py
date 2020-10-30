@@ -10,6 +10,7 @@ from django.contrib import messages
 from classlinks.models import ClassLink
 
 from notices.forms import add_notice_form
+from notification import notify
 
 
 def add_notice(request):
@@ -143,6 +144,10 @@ def add_class(request):
                 if form.is_valid():
                     classlink = form.save()
                     messages.add_message(request, messages.SUCCESS, classlink.subject.name + " class added to " + classlink.subject.batch.name )
+                    batch = classlink.subject.batch
+                    students = batch.user_set.all()
+                    msg = classlink.subject.name + " class link is added "
+                    notify.send(msg=msg,users=students)
                     context['form'] =add_class_form()
                 else:
                     context['form'] = form
@@ -215,6 +220,9 @@ def add_vedio(request):
                 vedio.title = vedio_title
                 vedio.url = vedio_url
                 vedio.save()
+                students = classlink.subject.batch.user_set.all()
+                msg = classlink.subject.name +  " class recoding is added"
+                notify.send(msg=msg,users=students)
                 messages.add_message(request, messages.SUCCESS, "Vedio added")
                 return redirect('add_vedio')
             else:

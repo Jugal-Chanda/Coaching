@@ -7,4 +7,6 @@ urlpatterns = [
     path('pending/', views.students_pending, name='students_pending'),
     path('aprove/view/<int:id>',views.aprove_student,name='aprove_student'),
     path('delete/<int:id>',views.delete_student,name="delete_student"),
+    path('notifications/', views.notifications, name='notifications'),
+    # path('register/',views.register,name="student_register_admin")
 ]
