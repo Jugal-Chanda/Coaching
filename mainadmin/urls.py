@@ -18,7 +18,7 @@ urlpatterns = [
 
     path('vedio/add/',views.add_vedio,name="add_vedio"),
 
-    path('notice/add/',views.add_notice,name="add_notice")
+    path('notice/add/',views.add_notice,name="add_notice"),
 
 
 

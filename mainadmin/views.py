@@ -220,6 +220,9 @@ def add_vedio(request):
                 vedio.title = vedio_title
                 vedio.url = vedio_url
                 vedio.save()
+                students = classlink.subject.batch.user_set.all()
+                msg = classlink.subject.name +  " class recoding is added"
+                notify.send(msg=msg,users=students)
                 messages.add_message(request, messages.SUCCESS, "Vedio added")
                 return redirect('add_vedio')
             else:

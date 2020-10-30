@@ -7,5 +7,5 @@ class Notification(models.Model):
     notification = models.CharField(blank=False,max_length=200)
     to = models.ForeignKey(User, on_delete=models.CASCADE,null=False)
     read = models.BooleanField(default = False)
-    created_at = models.DateField(auto_now=True)
+    created_at = models.DateTimeField(auto_now=True)
     REQUIRED_FIELDS = ['notification','to']
