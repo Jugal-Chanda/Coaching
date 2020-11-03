@@ -6,7 +6,6 @@ from accounts.models import Batch
 
 class RegistrationForm(UserCreationForm):
     """docstring for ."""
-    image = forms.ImageField(label="Upload Your Image",widget = forms.FileInput(attrs={'class':'form-control','placeholder':"Your Image"}))
     name = forms.CharField(label="Full Name",widget= forms.TextInput(attrs={'class': 'form-control','placeholder':'Enter Your Full Name'}))
     email = forms.EmailField(label="Email Address",help_text="We'll never share your email with anyone else.", widget= forms.EmailInput(attrs={'class': 'form-control','aria-describedby':'emailHelp','placeholder':'Enter email'}))
     phone_number = forms.CharField(label="Phone Number",widget= forms.TextInput(attrs={'class': 'form-control','placeholder':'Enter Your Phone Number'}))
@@ -18,7 +17,7 @@ class RegistrationForm(UserCreationForm):
     class Meta:
         """docstring for ."""
         model = get_user_model()
-        fields = ('image','name','email','phone_number','address','password1','password2')
+        fields = ('name','email','phone_number','address','password1','password2')
 
 
 class Log_in_Form(forms.Form):

@@ -51,7 +51,7 @@ class User(AbstractBaseUser):
     """ Custom user model class"""
     email = models.EmailField(_('email'), unique=True, default='')
     name = models.CharField(_('name'), max_length=50, blank=False)
-    image = models.ImageField(upload_to="accounts/")
+    image = models.ImageField(upload_to="accounts/",default="accounts/Screenshot_18.png")
     phone_number = models.CharField(max_length = 15)
     is_superadmin = models.BooleanField(_('is_superadmin'), default=False)
     is_active = models.BooleanField(_('is_active'), default=True)
@@ -66,7 +66,7 @@ class User(AbstractBaseUser):
     batch = models.ForeignKey(Batch,on_delete=models.CASCADE,null = True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['name','phone_number','image','address']
+    REQUIRED_FIELDS = ['name','phone_number','address']
     objects = CustomUserManager()
 
     class Meta:
