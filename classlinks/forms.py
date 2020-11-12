@@ -4,14 +4,19 @@ from django.core.exceptions import ValidationError
 from accounts.models import Batch,User
 from django.forms import ModelChoiceField
 #
-#
+
+class assignTeacherChoiceField(ModelChoiceField):
+    def label_from_instance(self, obj):
+        return str(obj.id) + "  "+obj.name
+
 class add_subject_form(forms.ModelForm):
     name = forms.CharField(label="Subject",max_length = 60, widget = forms.TextInput(attrs={'class':'form-control','placeholder':"Enter a subject name"}))
     batch = forms.ModelChoiceField(label="Select a batch",queryset=Batch.objects.all(), initial=0,widget = forms.Select(attrs={'class':'form-control','placeholder':"Select a Batch"}))
+    teacher = assignTeacherChoiceField(label="Select a Teacher",queryset = User.objects.filter(is_teacher = True,teacher_aprove = True),initial=0,widget = forms.Select(attrs={'class':'form-control','placeholder':"Select a teacher"}))
     class Meta:
         """docstring for ."""
         model = Subject
-        fields = ('name','batch')
+        fields = ('name','batch','teacher')
 #
 #
 

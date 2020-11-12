@@ -10,6 +10,7 @@ urlpatterns = [
     path('student/paid/<int:id>',views.student_paid,name="student_paid"),
     path('subject/add/',views.subject_add,name="subject_add"),
 
+
     path('batch/add/',views.add_batch,name="add_batch"),
     path('batches',views.all_batches,name="all_batches"),
     path('batches/<int:id>',views.batch_student,name="batch_student"),

@@ -51,6 +51,8 @@ def add_batch(request):
                 form = addBatchForm(request.POST)
                 if form.is_valid():
                     batch = form.save()
+                    if request.POST.get('next', ''):
+                        return redirect('subject_add')
                     return redirect('all_batches')
                 else:
                     context['form'] = form
@@ -124,6 +126,8 @@ def subject_add(request):
                 if form.is_valid():
                     subject = form.save()
                     messages.add_message(request, messages.SUCCESS, subject.name+' subject added successfully')
+                    if request.POST.get('next', ''):
+                        return redirect('add_class')
                     return redirect('subject_add')
             else:
                 form = add_subject_form()
