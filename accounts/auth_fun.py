@@ -36,7 +36,8 @@ def student_login(request):
                 messages.add_message(request, messages.ERROR, 'Your are not still aproved')
                 return "error_page" # Student not aproved
         else:
-            return False #Not a student account
+            messages.add_message(request, messages.ERROR, 'Your donot have a student account')
+            return "error_page" #Not a student account
     else:
         return 'login'
 
@@ -48,9 +49,12 @@ def teacher_login(request):
             if user.teacher_aprove:
                 # teacher aproved
                 return 'teacherhome'
+            else:
+                messages.add_message(request, messages.ERROR, 'Your are not still aproved')
+                return "error_page"
         else:
-            # user donot have teacher account
-            print("You donot have a teacher account")
+            messages.add_message(request, messages.ERROR, 'Your donot have a teacher account')
+            return "error_page"
     else:
         return 'login'
 
