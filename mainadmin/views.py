@@ -1,14 +1,11 @@
-
 from django.shortcuts import render,redirect
 from accounts.models import User,Batch
 from accounts import auth_fun
 from accounts.forms import addBatchForm
-# from accounts.models import Batch
 from classlinks.forms import add_subject_form,add_class_time_form,add_class_form
 from vedios.models import Vedio
 from django.contrib import messages
 from classlinks.models import ClassLink
-
 from notices.forms import add_notice_form
 from notification import notify
 
@@ -65,7 +62,6 @@ def add_batch(request):
     else:
         return redirect('login')
 
-
 def all_batches(request):
     context = {}
     if auth_fun.is_authenticate(request.user):
@@ -77,7 +73,6 @@ def all_batches(request):
             return redirect(auth_fun.redirect_permision(request))
     else:
         return redirect('login')
-
 
 def batch_student(request,id):
     context = {}
@@ -103,8 +98,6 @@ def students(request):
     else:
         return redirect('login')
 
-
-
 def teachers(request):
     context = {}
     if auth_fun.is_authenticate(request.user):
@@ -115,7 +108,6 @@ def teachers(request):
             return redirect(auth_fun.redirect_permision(request))
     else:
         return redirect('login')
-
 
 def subject_add(request):
     context = {}
@@ -137,7 +129,6 @@ def subject_add(request):
             return redirect(auth_fun.redirect_permision(request))
     else:
         return redirect('login')
-
 
 def add_class(request):
     context = {}
@@ -163,7 +154,6 @@ def add_class(request):
     else:
         return redirect('login')
 
-
 def add_class_time(request):
     context = {}
     if auth_fun.is_authenticate(request.user):
@@ -185,13 +175,6 @@ def add_class_time(request):
     else:
         return redirect('login')
 
-
-
-
-
-
-
-
 def student_paid(request,id):
     context = {}
     if auth_fun.is_authenticate(request.user):
@@ -205,10 +188,6 @@ def student_paid(request,id):
             return redirect(auth_fun.redirect_permision(request))
     else:
         return redirect('login')
-
-
-
-
 
 def add_vedio(request):
     context = {}
