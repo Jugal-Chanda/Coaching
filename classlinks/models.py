@@ -7,7 +7,8 @@ from accounts.models import User,Batch
 class Subject(models.Model):
     name = models.CharField(blank=False,max_length=200)
     batch = models.ForeignKey(Batch, on_delete=models.CASCADE,null=False)
-    REQUIRED_FIELDS = ['name','batch']
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE,null=False)
+    REQUIRED_FIELDS = ['name','batch','teacher']
 #
 class Classtime(models.Model):
     starttime = models.TimeField()
@@ -16,7 +17,7 @@ class Classtime(models.Model):
 
     def __str__(self):
         return str(self.starttime) + " - " + str(self.endtime)
-#
+
 class ClassLink(models.Model):
     """docstring for ."""
     teacher = models.ForeignKey(User, on_delete=models.CASCADE,null=False)
