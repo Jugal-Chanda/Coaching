@@ -20,7 +20,6 @@ class Classtime(models.Model):
 
 class ClassLink(models.Model):
     """docstring for ."""
-    teacher = models.ForeignKey(User, on_delete=models.CASCADE,null=False)
     subject = models.ForeignKey(Subject,on_delete=models.CASCADE,null=False)
     classdate = models.DateField()
     classtime = models.ForeignKey(Classtime,on_delete=models.CASCADE,null=False)
