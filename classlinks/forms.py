@@ -26,7 +26,6 @@ class SubjectChoiceField(ModelChoiceField):
 
 class add_class_form(forms.ModelForm):
     """docstring for ."""
-    teacher = forms.ModelChoiceField(label="Select a Teacher",queryset = User.objects.filter(is_teacher = True,teacher_aprove = True),initial=0,widget = forms.Select(attrs={'class':'form-control','placeholder':"Select a teacher"}))
     subject = SubjectChoiceField(label="Subject",queryset=Subject.objects.all(), initial=0,widget = forms.Select(attrs={'class':'form-control','placeholder':"Select a subject"}))
     classdate = forms.DateField(input_formats=['%d/%m/%Y'],widget=forms.DateInput(attrs={'class': 'form-control datetimepicker-input','data-target': '#datetimepicker1','placeholder':'Select a date'}))
     classtime = forms.ModelChoiceField(label="Time",queryset=Classtime.objects.all(), initial=0,widget = forms.Select(attrs={'class':'form-control','placeholder':"Select a tiem shedule"}))
@@ -35,7 +34,7 @@ class add_class_form(forms.ModelForm):
     class Meta:
         """docstring for ."""
         model = ClassLink
-        fields = ('teacher','subject','classdate','classtime','url')
+        fields = ('subject','classdate','classtime','url')
 #
 class add_class_time_form(forms.ModelForm):
     starttime = forms.TimeField(label = "Select Start Time",input_formats = ['%H:%M'],widget=forms.TimeInput(attrs={'class': 'form-control datetimepicker-input','data-target': '#datetimepicker1'

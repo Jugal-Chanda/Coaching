@@ -5,7 +5,7 @@ from accounts.forms import addBatchForm
 from classlinks.forms import add_subject_form,add_class_time_form,add_class_form
 from vedios.models import Vedio
 from django.contrib import messages
-from classlinks.models import ClassLink
+from classlinks.models import ClassLink,Subject
 from notices.forms import add_notice_form
 from notification import notify
 
@@ -119,7 +119,7 @@ def subject_add(request):
                     subject = form.save()
                     messages.add_message(request, messages.SUCCESS, subject.name+' subject added successfully')
                     if request.POST.get('next', ''):
-                        return redirect('add_class')
+                        return redirect('add_class_time')
                     return redirect('subject_add')
             else:
                 form = add_subject_form()
@@ -132,9 +132,12 @@ def subject_add(request):
 
 def add_class(request):
     context = {}
+    context['batches'] = Batch.objects.all()
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'adminHome':
             if request.POST:
+                # subject_id = request.POST.get('subject')
+                # subject = Subject.objects.get('subject_id')
                 form = add_class_form(request.POST)
                 if form.is_valid():
                     classlink = form.save()
@@ -163,8 +166,10 @@ def add_class_time(request):
                 if form.is_valid():
                     classtime = form.save()
                     if classtime:
-                        form = add_class_time_form()
                         messages.add_message(request, messages.SUCCESS, "Class time added to database")
+                        form = add_class_time_form()
+                        if request.POST.get('next', ''):
+                            return redirect('add_class')
                         return redirect('add_class_time')
             else:
                 form = add_class_time_form()

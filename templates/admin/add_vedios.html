@@ -69,6 +69,7 @@
 {% block js_script %}
 <script type="text/javascript">
   $("#batch_select").change(function(){
+    $('#subject_select').find('option:not(:first)').remove();
     var batch_id = $(this).children("option:selected").val();
     $.ajax({
       url: "{% url 'batch_to_subjects' %}",
@@ -87,6 +88,7 @@
   });
 
   $("#subject_select").change(function(){
+    $('#subject_select').find('option:not(:first)').remove();
     var subject_id = $(this).children("option:selected").val();
     $.ajax({
       url: "{% url 'subject_to_classlink' %}",
