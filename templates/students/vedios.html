@@ -1,6 +1,23 @@
 {% extends "students/base.html" %}
 {% block content %}
 <div class="row">
+  <div class="col-md-6 justify-content-center">
+    <form class="" action="" method="post">
+      <label for="">Search by date</label>
+      <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
+        <input type="text" name="date" value="" class="form-control datetimepicker-input" data-target= '#datetimepicker3' >
+        <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
+          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+        </div>
+
+      </div>
+      <input type="submit" name="" value="Search" class="ml-2 btn btn-success">
+
+    </form>
+  </div>
+
+</div>
+<div class="row">
   {% if vedios %}
     {% for vedio in vedios %}
     <div class="col-md-6 col-12 my-1 px-1">
@@ -27,4 +44,15 @@
 
 
 </div>
+{% endblock %}
+
+{% block js_script %}
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker3').datetimepicker({
+        format: 'DD/MM/YYYY',
+      });
+
+    });
+</script>
 {% endblock %}
