@@ -2,14 +2,14 @@
 {% block content %}
 <div class="row">
   <div class="col-md-6 justify-content-center">
-    <form class="" action="" method="post">
-      <label for="">Search by date</label>
+    <form class="form-inline" action="" method="post">
+      {% csrf_token %}
+      <label for="datetimepicker3">Search by date</label>
       <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
         <input type="text" name="date" value="" class="form-control datetimepicker-input" data-target= '#datetimepicker3' >
         <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
           <div class="input-group-text"><i class="fa fa-calendar"></i></div>
         </div>
-
       </div>
       <input type="submit" name="" value="Search" class="ml-2 btn btn-success">
 
@@ -17,7 +17,7 @@
   </div>
 
 </div>
-<div class="row">
+<div class="row mt-2">
   {% if vedios %}
     {% for vedio in vedios %}
     <div class="col-md-6 col-12 my-1 px-1">
