@@ -48,7 +48,7 @@ def add_batch(request):
                 form = addBatchForm(request.POST)
                 if form.is_valid():
                     batch = form.save()
-                    if request.POST.get('next', ''):
+                    if request.POST.get('next', ''): # Check next btn is pressed or not
                         return redirect('subject_add')
                     return redirect('all_batches')
                 else:
@@ -118,7 +118,7 @@ def subject_add(request):
                 if form.is_valid():
                     subject = form.save()
                     messages.add_message(request, messages.SUCCESS, subject.name+' subject added successfully')
-                    if request.POST.get('next', ''):
+                    if request.POST.get('next', ''): # Check next btn is pressed or not
                         return redirect('add_class_time')
                     return redirect('subject_add')
             else:
@@ -168,7 +168,7 @@ def add_class_time(request):
                     if classtime:
                         messages.add_message(request, messages.SUCCESS, "Class time added to database")
                         form = add_class_time_form()
-                        if request.POST.get('next', ''):
+                        if request.POST.get('next', ''): # Check next btn is pressed or not
                             return redirect('add_class')
                         return redirect('add_class_time')
             else:
