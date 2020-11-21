@@ -11,6 +11,7 @@
         <tr>
           <th scope="col">Batch Name</th>
           <th scope="col">Capacity</th>
+          <th scope="col">Subjects of a batch</th>
         </tr>
       </thead>
       <tbody>
@@ -18,6 +19,7 @@
         <tr scope="row">
           <td> <a href="{% url 'batch_student' batch.id  %}">{{ batch.name }}</a>   </td>
           <td>{{ batch.capacity }}</td>
+          <td> <a href="{% url 'batch_wise_subjects' batch.id %}">All subjects</a>  </td>
         </tr>
         {% endfor %}
       </tbody>

@@ -18,6 +18,8 @@ urlpatterns = [
     path('class/time/add',views.add_class_time,name="add_class_time"),
     path('class/add/',views.add_class,name="add_class"),
 
+    path('batch/<int:batch>/subject/',views.batch_wise_subjects,name="batch_wise_subjects"),
+
     path('vedio/add/',views.add_vedio,name="add_vedio"),
 
     path('notice/add/',views.add_notice,name="add_notice"),

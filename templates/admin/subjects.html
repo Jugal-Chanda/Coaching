@@ -1,0 +1,26 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+
+
+<table class="table">
+  <h3 class="text-center">Subjects of {{ batch.name }}</h3>
+  <thead>
+    <tr>
+      <th>Subject Name</th>
+      <th>Teacher Name</th>
+      <th>Class Url</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for subject in subjects %}
+    <tr>
+      <td>{{ subject.name }}</td>
+      <td>{{ subject.teacher.name }}</td>
+      <td>  <a href="{{ subject.url }}">Class link</a> </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

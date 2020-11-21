@@ -137,6 +137,13 @@ def subject_add(request):
     else:
         return redirect('login')
 
+def batch_wise_subjects(request,batch):
+    context = {}
+    batch = Batch.objects.get(pk=batch)
+    context['batch'] = batch
+    context['subjects'] = batch.subject_set.all()
+    return render(request,'admin/subjects.html',context)
+
 def assign_teacher_and_add_url(request):
     context = {}
     context['batches'] = Batch.objects.all()
