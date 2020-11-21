@@ -29,7 +29,7 @@ SECRET_KEY = 'og3h%0!(#zaxic7ap%o5)#pc8%-2a4(+wq0n!8it^0dssbst+('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['roboticsabc.xyz/']
+ALLOWED_HOSTS = ['roboticsabc.xyz']
 
 
 # Application definition
