@@ -3,6 +3,7 @@ from accounts.models import User
 from accounts import auth_fun
 from classlinks.models import Classtime,ClassLink,Subject
 from datetime import datetime, timedelta,date
+from mainadmin.helper_func import check_techer_panding,check_student_panding
 #
 #
 # # Create your views here.
@@ -11,6 +12,8 @@ from datetime import datetime, timedelta,date
 
 def teachers_pending(request):
     context = {}
+    context['teachers_pending'] = check_techer_panding()
+    context['students_pending'] = check_student_panding()
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'adminHome':
             context['teachers'] = User.objects.filter(is_teacher = True).exclude(teacher_aprove=True)
@@ -22,6 +25,8 @@ def teachers_pending(request):
 # teacherhome
 def aprove_teacher(request,id):
     context = {}
+    context['teachers_pending'] = check_techer_panding()
+    context['students_pending'] = check_student_panding()
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'adminHome':
             user = User.objects.get(pk=id)
@@ -41,6 +46,8 @@ def aprove_teacher(request,id):
 
 def index(request):
     context = {}
+    context['teachers_pending'] = check_techer_panding()
+    context['students_pending'] = check_student_panding()
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'teacherhome':
             classtimes_temp = Classtime.objects.all()
