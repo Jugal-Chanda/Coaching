@@ -21,6 +21,8 @@ urlpatterns = [
 
     path('notice/add/',views.add_notice,name="add_notice"),
 
+    path('ajax/batch/subjects',views.ajax_batch_to_subjects,name="ajax_batch_to_subjects"),
+
 
 
 
