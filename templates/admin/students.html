@@ -27,7 +27,13 @@
       <td>{{ student.email }}</td>
       <td>{{ student.phone_number }}</td>
       <td>{{ student.address }}</td>
-      <td> <a href="{% url 'batch_student' student.batch.id  %}">{{ student.batch.name }}</a></td>
+      <td>
+        {% if student.batch %}
+         <a href="{% url 'batch_student' student.batch.id  %}">{{ student.batch.name }}</a>
+        {% else %}
+        <a href="{% url 'aprove_student' student.id %}">Assign batch</a>
+        {% endif %}
+       </td>
       <td>
         {% if not student.payment %}
         <a href="{% url 'student_paid' student.id %}" class="btn btn-success"  >Paid</a>

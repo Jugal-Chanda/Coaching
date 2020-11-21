@@ -5,6 +5,7 @@ from classlinks.models import Classtime,ClassLink,Subject
 from notices.models import Notice
 from datetime import datetime, timedelta,date
 from notification.models import Notification
+from mainadmin.helper_func import check_techer_panding,check_student_panding
 # # Create your views here.
 # #**********  Student View **********************
 # #==============================================
@@ -13,6 +14,8 @@ from notification.models import Notification
 
 def students_pending(request):
     context = {}
+    context['teachers_pending'] = check_techer_panding()
+    context['students_pending'] = check_student_panding()
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'adminHome':
             context['students'] = User.objects.filter(is_student = True).exclude(student_aprove=True)
@@ -26,23 +29,23 @@ def students_pending(request):
 
 def aprove_student(request,id):
     context = {}
+    context['teachers_pending'] = check_techer_panding()
+    context['students_pending'] = check_student_panding()
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'adminHome':
             if request.POST:
                 user = User.objects.get(pk=request.POST.get('user_id'))
                 if user:
-                    batch = Batch.objects.get(pk=request.POST.get('batch_id'))
+                    user.student_aprove = True
+                    batch = Batch.objects.filter(pk=request.POST.get('batch_id')).first()
                     if batch:
                         user.batch = batch
-                        user.student_aprove = True
-                        user.save()
                         batch.enrolled+=1
                         batch.save()
-                        return redirect('students_pending')
-                    else:
-                        #Batch not found
-                        messages.add_message(request, messages.ERROR, 'batch not found. Something went to wrong')
-
+                    user.save()
+                    if request.POST.get('assign',''):
+                        return redirect('students')
+                    return redirect('students_pending')
                 else:
                     messages.add_message(request, messages.ERROR, 'User not found. Something went to wrong')
                     return  redirect('error_page') #user Not found
@@ -65,6 +68,8 @@ def aprove_student(request,id):
 
 def delete_student(request,id):
     context = {}
+    context['teachers_pending'] = check_techer_panding()
+    context['students_pending'] = check_student_panding()
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'adminHome':
             user = User.objects.get(pk=id)
@@ -79,6 +84,8 @@ def delete_student(request,id):
 
 def notifications(request):
     context = {}
+    context['teachers_pending'] = check_techer_panding()
+    context['students_pending'] = check_student_panding()
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'studenthome':
             notifications = request.user.notification_set.order_by('-created_at')
@@ -95,6 +102,8 @@ def notifications(request):
 
 def index(request):
     context = {}
+    context['teachers_pending'] = check_techer_panding()
+    context['students_pending'] = check_student_panding()
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'studenthome':
             today_date = date.today()

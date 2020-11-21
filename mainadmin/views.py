@@ -8,13 +8,16 @@ from django.contrib import messages
 from classlinks.models import ClassLink,Subject
 from notices.forms import add_notice_form
 from notification import notify
-
+from mainadmin.helper_func import check_techer_panding,check_student_panding
 from django.core import serializers
 from django.http import HttpResponse,JsonResponse
 
 
 def add_notice(request):
     context = {}
+    context['teachers_pending'] = check_techer_panding()
+    context['students_pending'] = check_student_panding()
+
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'adminHome':
 
@@ -35,8 +38,11 @@ def add_notice(request):
 
 def index(request):
     context = {}
+    context['teachers_pending'] = check_techer_panding()
+    context['students_pending'] = check_student_panding()
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'adminHome':
+
             return render(request,'admin/index.html',context)
         else:
             return redirect(auth_fun.redirect_permision(request))
@@ -45,6 +51,8 @@ def index(request):
 
 def add_batch(request):
     context={}
+    context['teachers_pending'] = check_techer_panding()
+    context['students_pending'] = check_student_panding()
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'adminHome':
             if request.POST:
@@ -67,6 +75,8 @@ def add_batch(request):
 
 def all_batches(request):
     context = {}
+    context['teachers_pending'] = check_techer_panding()
+    context['students_pending'] = check_student_panding()
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'adminHome':
             batches = Batch.objects.all()
@@ -79,6 +89,8 @@ def all_batches(request):
 
 def batch_student(request,id):
     context = {}
+    context['teachers_pending'] = check_techer_panding()
+    context['students_pending'] = check_student_panding()
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'adminHome':
             batch = Batch.objects.get(pk=id)
@@ -92,6 +104,8 @@ def batch_student(request,id):
 
 def students(request):
     context = {}
+    context['teachers_pending'] = check_techer_panding()
+    context['students_pending'] = check_student_panding()
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'adminHome':
             context['students'] = User.objects.filter(is_student=True,student_aprove = True)
@@ -103,6 +117,8 @@ def students(request):
 
 def teachers(request):
     context = {}
+    context['teachers_pending'] = check_techer_panding()
+    context['students_pending'] = check_student_panding()
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'adminHome':
             context['teachers'] = User.objects.filter(is_teacher=True,teacher_aprove = True)
@@ -114,6 +130,8 @@ def teachers(request):
 
 def subject_add(request):
     context = {}
+    context['teachers_pending'] = check_techer_panding()
+    context['students_pending'] = check_student_panding()
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'adminHome':
             if request.POST:
@@ -139,6 +157,8 @@ def subject_add(request):
 
 def batch_wise_subjects(request,batch):
     context = {}
+    context['teachers_pending'] = check_techer_panding()
+    context['students_pending'] = check_student_panding()
     batch = Batch.objects.get(pk=batch)
     context['batch'] = batch
     context['subjects'] = batch.subject_set.all()
@@ -146,6 +166,8 @@ def batch_wise_subjects(request,batch):
 
 def assign_teacher_and_add_url(request):
     context = {}
+    context['teachers_pending'] = check_techer_panding()
+    context['students_pending'] = check_student_panding()
     context['batches'] = Batch.objects.all()
     context['teachers'] = User.objects.filter(is_teacher=True,teacher_aprove=True,is_active=True)
     if auth_fun.is_authenticate(request.user):
@@ -180,6 +202,8 @@ def ajax_batch_to_subjects(request):
 
 def add_class(request):
     context = {}
+    context['teachers_pending'] = check_techer_panding()
+    context['students_pending'] = check_student_panding()
     context['batches'] = Batch.objects.all()
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'adminHome':
@@ -207,6 +231,8 @@ def add_class(request):
 
 def add_class_time(request):
     context = {}
+    context['teachers_pending'] = check_techer_panding()
+    context['students_pending'] = check_student_panding()
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'adminHome':
             if request.POST:
@@ -230,6 +256,8 @@ def add_class_time(request):
 
 def student_paid(request,id):
     context = {}
+    context['teachers_pending'] = check_techer_panding()
+    context['students_pending'] = check_student_panding()
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'adminHome':
             user = User.objects.get(pk=id)
@@ -244,6 +272,8 @@ def student_paid(request,id):
 
 def add_vedio(request):
     context = {}
+    context['teachers_pending'] = check_techer_panding()
+    context['students_pending'] = check_student_panding()
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'adminHome':
             if request.POST:

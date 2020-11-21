@@ -31,21 +31,18 @@
 
           <ul class="list-group mt-2">
             <li class="list-group-item"> <a href="{% url 'adminHome' %}">Home</a></li>
-            <li class="list-group-item"> <a href="{% url 'add_batch' %}">Add Batch</a> </li>
-            <li class="list-group-item" > <a href="{% url 'all_batches' %}">Batches</a> </li>
-
-            <li class="list-group-item"> <a href="{% url 'students_pending' %}">Students Pending</a></li>
-            <li class="list-group-item"> <a href="{% url 'teachers_pending' %}">Teachers Pending</a> </li>
+            <li class="list-group-item"> <a href="{% url 'students_pending' %}" class="{% if students_pending > 0 %}text-danger{% endif %}">Students Pending( {{ students_pending }} )</a></li>
+            <li class="list-group-item"> <a href="{% url 'teachers_pending' %}" class="{% if teachers_pending > 0 %}text-danger{% endif %}">Teachers Pending( {{ teachers_pending }} )</a> </li>
             <li class="list-group-item"> <a href="{% url 'teachers' %}">Teachers</a> </li>
             <li class="list-group-item"> <a href="{% url 'students' %}">Students</a></li>
+            <li class="list-group-item"> <a href="{% url 'add_batch' %}">Add Batch</a> </li>
+            <li class="list-group-item" > <a href="{% url 'all_batches' %}">Batches</a> </li>
             <li class="list-group-item"> <a href="{% url 'subject_add' %}">Add Subject</a> </li>
             <li class="list-group-item"> <a href="{% url 'assign_teacher_and_add_url' %}">Assign Teacher and class link</a> </li>
             <li class="list-group-item"> <a href="{% url 'add_class_time' %}">Add Class Shedule</a> </li>
-            <li class="list-group-item"> <a href="{% url 'add_class' %}">Add Live Class link</a> </li>
+            <li class="list-group-item"> <a href="{% url 'add_class' %}">Add Class Date</a> </li>
             <li class="list-group-item"> <a href="{% url 'add_vedio' %}">Add Vedio</a> </li>
             <li class="list-group-item"> <a href="{% url 'add_notice' %}">Add Notice</a> </li>
-
-
             <li class="list-group-item" > <a href="{% url 'logout' %}">Logout</a></li>
           </ul>
 
