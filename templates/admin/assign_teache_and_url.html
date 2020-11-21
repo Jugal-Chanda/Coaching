@@ -1,0 +1,106 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+  <div class="col-lg-6 ">
+    <div class="card">
+      <div class="card-header">
+        <h4>Assign teacher and subjects</h4>
+      </div>
+      <div class="card-body">
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <form class="" action="" method="post">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="batch_select">Select a batch</label>
+            <select class="form-control" name="batch_select" id="batch_select">
+              <option value=""></option>
+              {% for batch in batches %}
+              <option value="{{ batch.id }}">{{ batch.name }}</option>
+              {% endfor %}
+
+            </select>
+
+          </div>
+          <div class="form-group">
+            <label for="subject_select">Select a subject</label>
+            <select class="form-control" name="subject_select" id="subject_select">
+              <option value=""></option>
+            </select>
+
+          </div>
+          <div class="form-group">
+            <label for="teacher">Assign a teacher</label>
+            <select class="form-control" name="teacher" id="teacher">
+              <option value=""></option>
+              {% for teacher in teachers %}
+              <option value="{{ teacher.id }}">{{ teacher.name }}( {{ teacher.email }} )</option>
+              {% endfor %}
+
+            </select>
+
+          </div>
+
+          <div class="form-group">
+            <label for="classlink">ADd class link for this subject</label>
+            <input type="url" name="url" value="" id="classlink" class="form-control">
+
+          </div>
+          <div class="text-center">
+            <input type="submit" class="btn btn-success" name="submit" value="Save">
+            <input type="submit" class="btn btn-success" name="next" value="Save && next">
+          </div>
+
+
+        </form>
+
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block js_script %}
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker1').datetimepicker({
+        format: 'DD/MM/YYYY',
+      });
+
+    });
+</script>
+
+
+<script type="text/javascript">
+  $("#batch_select").change(function(){
+    $('#subject_select').find('option:not(:first)').remove();
+    var batch_id = $(this).children("option:selected").val();
+    $.ajax({
+      url: "{% url 'ajax_batch_to_subjects' %}",
+      data: {
+        'batch_id': batch_id,
+      },
+      dataType: 'json',
+      success: function (data) {
+        parse_data = jQuery.parseJSON(data)
+        $.each(parse_data, function( index, value ) {
+          $('#subject_select').append('<option value=' + value.pk + '>' + value.fields.name +'</option>');
+        });
+
+      }
+    });
+  });
+</script>
+
+{% endblock %}
