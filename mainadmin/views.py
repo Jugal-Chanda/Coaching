@@ -153,7 +153,7 @@ def assign_teacher_and_add_url(request):
                 subject.save()
                 messages.add_message(request, messages.SUCCESS, "Teacher and classlink added successfully")
                 if request.POST.get('next',''):
-                    return redirect('add_class')   
+                    return redirect('add_class')
             return render(request,'admin/assign_teache_and_url.html',context)
         else:
             return redirect(auth_fun.redirect_permision(request))
