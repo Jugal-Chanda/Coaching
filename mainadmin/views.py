@@ -2,12 +2,15 @@ from django.shortcuts import render,redirect
 from accounts.models import User,Batch
 from accounts import auth_fun
 from accounts.forms import addBatchForm
-from classlinks.forms import add_subject_form,add_class_time_form,add_class_form
+from classlinks.forms import add_class_time_form,add_class_form
 from vedios.models import Vedio
 from django.contrib import messages
 from classlinks.models import ClassLink,Subject
 from notices.forms import add_notice_form
 from notification import notify
+
+from django.core import serializers
+from django.http import HttpResponse,JsonResponse
 
 
 def add_notice(request):
@@ -114,21 +117,59 @@ def subject_add(request):
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'adminHome':
             if request.POST:
-                form = add_subject_form(request.POST)
-                if form.is_valid():
-                    subject = form.save()
-                    messages.add_message(request, messages.SUCCESS, subject.name+' subject added successfully')
-                    if request.POST.get('next', ''): # Check next btn is pressed or not
-                        return redirect('add_class_time')
-                    return redirect('subject_add')
+                req_subjects = list(request.POST.get('subjects').split(','))
+                req_batch = request.POST.get('batch')
+                for req_subject in req_subjects:
+                    subject = Subject()
+                    subject.name = req_subject
+                    subject.batch = Batch.objects.get(pk=req_batch)
+                    subject.save()
+                    message  = ""
+                for req_subject in req_subjects:
+                    message+= req_subject+', '
+                messages.add_message(request, messages.SUCCESS, message + " Subjects added ")
+
             else:
-                form = add_subject_form()
-            context['form'] = form
+                context['batches'] = Batch.objects.all()
             return render(request,'admin/add_subject.html',context)
         else:
             return redirect(auth_fun.redirect_permision(request))
     else:
         return redirect('login')
+
+def assign_teacher_and_add_url(request):
+    context = {}
+    context['batches'] = Batch.objects.all()
+    context['teachers'] = User.objects.filter(is_teacher=True,teacher_aprove=True,is_active=True)
+    if auth_fun.is_authenticate(request.user):
+        if auth_fun.redirect_permision(request) == 'adminHome':
+            if request.POST:
+                subject = request.POST.get('subject_select')
+                teacher = request.POST.get('teacher')
+                url = request.POST.get('url')
+                subject = Subject.objects.get(pk=subject)
+                subject.teacher = User.objects.get(pk=teacher)
+                subject.url = url
+                subject.save()
+                messages.add_message(request, messages.SUCCESS, "Teacher and classlink added successfully")
+                if request.POST.get('next',''):
+                    return redirect('add_class')   
+            return render(request,'admin/assign_teache_and_url.html',context)
+        else:
+            return redirect(auth_fun.redirect_permision(request))
+    else:
+        return redirect('login')
+
+def ajax_batch_to_subjects(request):
+    data = {}
+    if request.GET:
+        batch_id = request.GET.get('batch_id')
+        batch = Batch.objects.get(pk=batch_id)
+        if batch:
+            subjects = batch.subject_set.all()
+            data = serializers.serialize('json', subjects)
+        print(data)
+    return JsonResponse(data,safe=False)
 
 def add_class(request):
     context = {}

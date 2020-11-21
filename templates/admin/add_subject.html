@@ -15,22 +15,33 @@
             {% endfor %}
         </ul>
         {% endif %}
-        <form method="post" enctype="multipart/form-data">
+        <form class="" action="" method="post">
           {% csrf_token %}
-          {% for field in form %}
-            <div class="form-group">
-              {{ field.errors }}
-              {{ field.label_tag }}
-              {{ field }}
-              {% if field.help_text %}
-                <small id="{{field.id_for_label}}" class="form-text text-muted">{{ field.help_text|safe }}</small>
-              {% endif %}
-            </div>
-          {% endfor %}
-          <div class="text-center">
-            <input type="submit" class="btn btn-success" value="Add">
-            <input type="submit" name="next" value="Add & Next" class="btn btn-success">
+          <div class="form-group">
+            <label for="select_batch">Select a batch</label>
+            <select class="form-control" name="batch" id="select_batch">
+              <option value=""></option>
+              {% for batch in batches %}
+                <option value="{{ batch.id }}">{{ batch.name }}</option>
+              {% endfor %}
+
+            </select>
           </div>
+          <div class="bg-light">
+            <h5>Already added subjects</h5>
+            <ol id="added_subjects">
+              <li>Bangla</li>
+            </ol>
+          </div>
+          <div class="form-group">
+            <label for="subject">Subjects</label>
+            <input type="text" name="subjects" value="" class="form-control" id="subject">
+            <small>You can add multiple subjects at a time. For this you need to add multiple subject using comma(,) saperated. ex. Bangla, English, Math
+            </small>
+          </div>
+          <input type="submit" name="submit" value="Add subjects" class="btn btn-success mt-2">
+          <input type="submit" name="next" value="Add subjects & Next" class="btn btn-success mt-2">
+
         </form>
 
       </div>
@@ -40,5 +51,32 @@
 
 </div>
 
+
+{% endblock %}
+
+{% block js_script %}
+
+
+
+<script type="text/javascript">
+  $("#select_batch").change(function(){
+    $('#added_subjects').find('li').remove();
+    var batch_id = $(this).children("option:selected").val();
+    $.ajax({
+      url: "{% url 'ajax_batch_to_subjects' %}",
+      data: {
+        'batch_id': batch_id,
+      },
+      dataType: 'json',
+      success: function (data) {
+        parse_data = jQuery.parseJSON(data)
+        $.each(parse_data, function( index, value ) {
+          $('#added_subjects').append('<li>' + value.fields.name +'</li>');
+        });
+
+      }
+    });
+  });
+</script>
 
 {% endblock %}
