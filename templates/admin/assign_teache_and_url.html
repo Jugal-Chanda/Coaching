@@ -6,7 +6,7 @@
   <div class="col-lg-6 ">
     <div class="card">
       <div class="card-header">
-        <h4>Add Live Class Link</h4>
+        <h4>Assign teacher and subjects</h4>
       </div>
       <div class="card-body">
         {% if messages %}
@@ -16,60 +16,52 @@
             {% endfor %}
         </ul>
         {% endif %}
-        <form method="post" enctype="multipart/form-data">
+
+        <form class="" action="" method="post">
           {% csrf_token %}
-          <!-- Batch input  -->
           <div class="form-group">
             <label for="batch_select">Select a batch</label>
-            <select class="form-control" name="batch" id="batch_select">
-              <option value="0"></option>
+            <select class="form-control" name="batch_select" id="batch_select">
+              <option value=""></option>
               {% for batch in batches %}
-              <option value="{{ batch.id }}">{{batch.name}}</option>
+              <option value="{{ batch.id }}">{{ batch.name }}</option>
               {% endfor %}
+
             </select>
+
           </div>
-          <!-- Subject input -->
           <div class="form-group">
-            <label for="subject_select">Select a Subject</label>
-            <select class="form-control" name="subject" id="subject_select">
+            <label for="subject_select">Select a subject</label>
+            <select class="form-control" name="subject_select" id="subject_select">
               <option value=""></option>
             </select>
-          </div>
-          <!-- Class url input -->
-          <div class="form-group">
-            {{ form.url.errors }}
-            {{ form.url.label_tag }}
-            {{ form.url }}
-            {% if form.url.help_text %}
-              <small id="{{field.id_for_label}}" class="form-text text-muted">{{ form.url.help_text|safe }}</small>
-            {% endif %}
-          </div>
 
-          {{ form.classdate.errors }}
-          {{ form.classdate.label_tag }}
-          <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-
-            {{ form.classdate }}
-            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-            </div>
-            {% if form.subject.help_text %}
-              <small id="{{field.id_for_label}}" class="form-text text-muted">{{ form.subject.help_text|safe }}</small>
-            {% endif %}
           </div>
           <div class="form-group">
-            {{ form.classtime.errors }}
-            {{ form.classtime.label_tag }}
-            {{ form.classtime }}
-            {% if form.classtime.help_text %}
-              <small id="{{form.classtime.id_for_label}}" class="form-text text-muted">{{ form.classtime.help_text|safe }}</small>
-            {% endif %}
+            <label for="teacher">Assign a teacher</label>
+            <select class="form-control" name="teacher" id="teacher">
+              <option value=""></option>
+              {% for teacher in teachers %}
+              <option value="{{ teacher.id }}">{{ teacher.name }}( {{ teacher.email }} )</option>
+              {% endfor %}
+
+            </select>
+
           </div>
 
+          <div class="form-group">
+            <label for="classlink">ADd class link for this subject</label>
+            <input type="url" name="url" value="" id="classlink" class="form-control">
+
+          </div>
           <div class="text-center">
-            <input type="submit" class="btn btn-success" value="Add">
+            <input type="submit" class="btn btn-success" name="submit" value="Save">
+            <input type="submit" class="btn btn-success" name="next" value="Save && next">
           </div>
+
+
         </form>
+
 
       </div>
 

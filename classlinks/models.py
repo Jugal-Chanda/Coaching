@@ -7,8 +7,9 @@ from accounts.models import User,Batch
 class Subject(models.Model):
     name = models.CharField(blank=False,max_length=200)
     batch = models.ForeignKey(Batch, on_delete=models.CASCADE,null=False)
-    teacher = models.ForeignKey(User, on_delete=models.CASCADE,null=False)
-    REQUIRED_FIELDS = ['name','batch','teacher']
+    url = models.URLField(max_length=200,null=True)
+    teacher = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+    REQUIRED_FIELDS = ['name','batch']
 #
 class Classtime(models.Model):
     starttime = models.TimeField()
@@ -23,6 +24,5 @@ class ClassLink(models.Model):
     subject = models.ForeignKey(Subject,on_delete=models.CASCADE,null=False)
     classdate = models.DateField()
     classtime = models.ForeignKey(Classtime,on_delete=models.CASCADE,null=False)
-    url = models.URLField(max_length=200,null=False)
     created_at = models.DateField(auto_now=True)
     REQUIRED_FIELDS = ['batch','teacher','url','subject','classdate','classtime']

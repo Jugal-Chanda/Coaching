@@ -18,16 +18,7 @@ def subject_to_classlink(request):
         print(data)
     return JsonResponse(data,safe=False)
 
-def batch_to_subjects(request):
-    data = {}
-    if request.GET:
-        batch_id = request.GET.get('batch_id')
-        batch = Batch.objects.get(pk=batch_id)
-        if batch:
-            subjects = batch.subject_set.all()
-            data = serializers.serialize('json', subjects)
-        print(data)
-    return JsonResponse(data,safe=False)
+
 
 
 def vedio_links_students(request,id):
