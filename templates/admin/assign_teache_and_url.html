@@ -24,7 +24,7 @@
             <select class="form-control" name="batch_select" id="batch_select">
               <option value=""></option>
               {% for batch in batches %}
-              <option value="{{ batch.id }}">{{ batch.name }}</option>
+              <option value="{{ batch.id }}"  {% if batch.id == pre_batch %} selected {% endif %} >{{ batch.name }}</option>
               {% endfor %}
 
             </select>
@@ -34,6 +34,9 @@
             <label for="subject_select">Select a subject</label>
             <select class="form-control" name="subject_select" id="subject_select">
               <option value=""></option>
+              {% for subject in subjects %}
+              <option value="{{ subject.id }}" {% if subject.id == pre_subject %} selected {% endif %}>{{subject.name}}</option>
+              {% endfor %}
             </select>
 
           </div>

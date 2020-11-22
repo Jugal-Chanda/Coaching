@@ -29,6 +29,7 @@ SECRET_KEY = 'og3h%0!(#zaxic7ap%o5)#pc8%-2a4(+wq0n!8it^0dssbst+('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# ALLOWED_HOSTS = []
 ALLOWED_HOSTS = ['roboticsabc.xyz']
 
 
@@ -86,6 +87,17 @@ WSGI_APPLICATION = 'coaching.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'coaching',
+#         'USER': 'root',
+#         'PASSWORD': '',
+#         'HOST': 'localhost',
+#         'PORT': 3306
+#     }
+# }
 
 DATABASES = {
     'default': {
