@@ -59,7 +59,8 @@ def add_batch(request):
                 form = addBatchForm(request.POST)
                 if form.is_valid():
                     batch = form.save()
-                    if request.POST.get('next', ''): # Check next btn is pressed or not
+                    if request.POST.get('next', ''):
+                        request.session['batch'] = batch.id
                         return redirect('subject_add')
                     return redirect('all_batches')
                 else:
@@ -142,13 +143,23 @@ def subject_add(request):
                     subject.name = req_subject
                     subject.batch = Batch.objects.get(pk=req_batch)
                     subject.save()
+                    request.session['pre_subject'] = subject.id
+                    request.session['pre_batch'] = subject.batch.id
                     message  = ""
                 for req_subject in req_subjects:
                     message+= req_subject+', '
                 messages.add_message(request, messages.SUCCESS, message + " Subjects added ")
+                if request.POST.get('next',''):
+                    return redirect('assign_teacher_and_add_url')
 
             else:
                 context['batches'] = Batch.objects.all()
+                if request.session.get('batch',''):
+                    context['pre_batch'] = request.session['batch']
+                    del request.session['batch']
+                    print(context['pre_batch'])
+                else:
+                    context['pre_batch'] = 0
             return render(request,'admin/add_subject.html',context)
         else:
             return redirect(auth_fun.redirect_permision(request))
@@ -170,6 +181,8 @@ def assign_teacher_and_add_url(request):
     context['students_pending'] = check_student_panding()
     context['batches'] = Batch.objects.all()
     context['teachers'] = User.objects.filter(is_teacher=True,teacher_aprove=True,is_active=True)
+    context['pre_batch'] = 0
+    context['pre_subject'] = 0
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'adminHome':
             if request.POST:
@@ -183,6 +196,13 @@ def assign_teacher_and_add_url(request):
                 messages.add_message(request, messages.SUCCESS, "Teacher and classlink added successfully")
                 if request.POST.get('next',''):
                     return redirect('add_class')
+            else:
+                if request.session.get('pre_subject','') and request.session.get('pre_batch',''):
+                    context['pre_batch'] = request.session.get('pre_batch','')
+                    context['pre_subject'] = request.session.get('pre_subject','')
+                    context['subjects'] = Batch.objects.get(pk=context['pre_batch']).subject_set.all()
+                    del request.session['pre_batch']
+                    del request.session['pre_subject']
             return render(request,'admin/assign_teache_and_url.html',context)
         else:
             return redirect(auth_fun.redirect_permision(request))

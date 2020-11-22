@@ -22,7 +22,7 @@
             <select class="form-control" name="batch" id="select_batch">
               <option value=""></option>
               {% for batch in batches %}
-                <option value="{{ batch.id }}">{{ batch.name }}</option>
+                <option value="{{ batch.id }}" {% if batch.id == pre_batch %} selected {% endif %}>{{ batch.name }}</option>
               {% endfor %}
 
             </select>
