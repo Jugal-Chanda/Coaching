@@ -6,7 +6,7 @@
   <div class="col-lg-6 ">
     <div class="card">
       <div class="card-header">
-        <h4>Add Live Class Link</h4>
+        <h4>Add Class Date</h4>
       </div>
       <div class="card-body">
         {% if messages %}
@@ -24,7 +24,7 @@
             <select class="form-control" name="batch" id="batch_select">
               <option value="0"></option>
               {% for batch in batches %}
-              <option value="{{ batch.id }}">{{batch.name}}</option>
+              <option value="{{ batch.id }}"  {% if batch.id == pre_batch %} selected {% endif %}>{{batch.name}}</option>
               {% endfor %}
             </select>
           </div>
@@ -33,37 +33,27 @@
             <label for="subject_select">Select a Subject</label>
             <select class="form-control" name="subject" id="subject_select">
               <option value=""></option>
+              {% for subject in subjects %}
+              <option value="{{ subject.id }}" {% if subject.id == pre_subject %} selected {% endif %}>{{ subject.name }}</option>
+              {% endfor %}
             </select>
           </div>
-          <!-- Class url input -->
-          <div class="form-group">
-            {{ form.url.errors }}
-            {{ form.url.label_tag }}
-            {{ form.url }}
-            {% if form.url.help_text %}
-              <small id="{{field.id_for_label}}" class="form-text text-muted">{{ form.url.help_text|safe }}</small>
-            {% endif %}
-          </div>
-
-          {{ form.classdate.errors }}
-          {{ form.classdate.label_tag }}
-          <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-
-            {{ form.classdate }}
-            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+          <label for="datetimepicker3">Class Date</label>
+          <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
+            <input type="text" name="date" value="" class="form-control datetimepicker-input" data-target= '#datetimepicker3' >
+            <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
               <div class="input-group-text"><i class="fa fa-calendar"></i></div>
             </div>
-            {% if form.subject.help_text %}
-              <small id="{{field.id_for_label}}" class="form-text text-muted">{{ form.subject.help_text|safe }}</small>
-            {% endif %}
           </div>
           <div class="form-group">
-            {{ form.classtime.errors }}
-            {{ form.classtime.label_tag }}
-            {{ form.classtime }}
-            {% if form.classtime.help_text %}
-              <small id="{{form.classtime.id_for_label}}" class="form-text text-muted">{{ form.classtime.help_text|safe }}</small>
-            {% endif %}
+            <label for="classtime">Select Classtime</label>
+            <select class="form-control" name="classtime">
+              <option value=""></option>
+              {% for classtime in classtimes %}
+              <option value="{{ classtime.id }}" {% if classtime.id == pre_classtime %} selected {% endif %}>{{classtime.starttime}} - {{ classtime.endtime }}</option>
+              {% endfor %}
+            </select>
+
           </div>
 
           <div class="text-center">
@@ -82,7 +72,7 @@
 {% block js_script %}
 <script type="text/javascript">
     $(function () {
-        $('#datetimepicker1').datetimepicker({
+        $('#datetimepicker3').datetimepicker({
         format: 'DD/MM/YYYY',
       });
 

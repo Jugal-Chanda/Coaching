@@ -2,10 +2,10 @@ from django.shortcuts import render,redirect
 from accounts.models import User,Batch
 from accounts import auth_fun
 from accounts.forms import addBatchForm
-from classlinks.forms import add_class_time_form,add_class_form
+from classlinks.forms import add_class_time_form
 from vedios.models import Vedio
 from django.contrib import messages
-from classlinks.models import ClassLink,Subject
+from classlinks.models import ClassLink,Subject,Classtime
 from notices.forms import add_notice_form
 from notification import notify
 from mainadmin.helper_func import check_techer_panding,check_student_panding
@@ -161,8 +161,6 @@ def subject_add(request):
                 context['batches'] = Batch.objects.all()
                 if request.session.get('batch',''):
                     context['pre_batch'] = request.session['batch']
-                    del request.session['batch']
-                    print(context['pre_batch'])
                 else:
                     context['pre_batch'] = 0
             return render(request,'admin/add_subject.html',context)
@@ -200,14 +198,12 @@ def assign_teacher_and_add_url(request):
                 subject.save()
                 messages.add_message(request, messages.SUCCESS, "Teacher and classlink added successfully")
                 if request.POST.get('next',''):
-                    return redirect('add_class')
+                    return redirect('add_class_time')
             else:
                 if request.session.get('pre_subject','') and request.session.get('pre_batch',''):
                     context['pre_batch'] = request.session.get('pre_batch','')
                     context['pre_subject'] = request.session.get('pre_subject','')
                     context['subjects'] = Batch.objects.get(pk=context['pre_batch']).subject_set.all()
-                    del request.session['pre_batch']
-                    del request.session['pre_subject']
             return render(request,'admin/assign_teache_and_url.html',context)
         else:
             return redirect(auth_fun.redirect_permision(request))
@@ -233,21 +229,32 @@ def add_class(request):
     if auth_fun.is_authenticate(request.user):
         if auth_fun.redirect_permision(request) == 'adminHome':
             if request.POST:
-                # subject_id = request.POST.get('subject')
-                # subject = Subject.objects.get('subject_id')
-                form = add_class_form(request.POST)
-                if form.is_valid():
-                    classlink = form.save()
-                    messages.add_message(request, messages.SUCCESS, classlink.subject.name + " class added to " + classlink.subject.batch.name )
-                    batch = classlink.subject.batch
-                    students = batch.user_set.all()
-                    msg = classlink.subject.name + " class link is added "
-                    notify.send(msg=msg,users=students)
-                    context['form'] =add_class_form()
-                else:
-                    context['form'] = form
+                subject = Subject.objects.get(pk=request.POST.get('subject'))
+                classdate = datetime.strptime(request.POST.get('date'),'%d/%m/%Y').date()
+                classtime = Classtime.objects.get(pk = request.POST.get('classtime') )
+                classlink = ClassLink()
+                classlink.subject = subject
+                classlink.classdate = classdate
+                classlink.classtime = classtime
+                classlink.save()
+                messages.add_message(request, messages.SUCCESS, classlink.subject.name + " class added to " + classlink.subject.batch.name )
+                batch = classlink.subject.batch
+                students = batch.user_set.all()
+                msg = classlink.subject.name + " class link is added "
+                notify.send(msg=msg,users=students)
             else:
-                context['form'] = add_class_form()
+                if request.session.get('pre_batch','') and request.session.get('pre_subject','') and request.session.get('pre_classtime',''):
+                    batch = Batch.objects.get(pk = request.session['pre_batch'])
+                    context['subjects'] = batch.subject_set.all()
+                    context['pre_batch'] = request.session['pre_batch']
+                    context['pre_subject'] = request.session['pre_subject']
+                    context['pre_classtime'] = request.session['pre_classtime']
+                    
+                    del request.session['pre_batch']
+                    del request.session['pre_subject']
+                    del request.session['pre_classtime']
+                context['batches'] = Batch.objects.all()
+                context['classtimes'] = Classtime.objects.all()
             return render(request,'admin/add_class.html',context)
         else:
             return redirect(auth_fun.redirect_permision(request))
@@ -264,6 +271,7 @@ def add_class_time(request):
                 form = add_class_time_form(request.POST)
                 if form.is_valid():
                     classtime = form.save()
+                    request.session['pre_classtime'] = classtime.id
                     if classtime:
                         messages.add_message(request, messages.SUCCESS, "Class time added to database")
                         form = add_class_time_form()

@@ -25,4 +25,4 @@ class ClassLink(models.Model):
     classdate = models.DateField()
     classtime = models.ForeignKey(Classtime,on_delete=models.CASCADE,null=False)
     created_at = models.DateField(auto_now=True)
-    REQUIRED_FIELDS = ['batch','teacher','url','subject','classdate','classtime']
+    REQUIRED_FIELDS = ['subject','classdate','classtime']
