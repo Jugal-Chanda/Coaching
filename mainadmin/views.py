@@ -11,6 +11,7 @@ from notification import notify
 from mainadmin.helper_func import check_techer_panding,check_student_panding
 from django.core import serializers
 from django.http import HttpResponse,JsonResponse
+from datetime import datetime, timedelta,date
 
 
 def add_notice(request):
@@ -38,6 +39,10 @@ def add_notice(request):
 
 def index(request):
     context = {}
+    context['students'] = User.objects.filter(is_student=True).count()
+    context['teachers'] = User.objects.filter(is_teacher=True).count()
+    context['classes'] = ClassLink.objects.filter(classdate=date.today())
+    context['vedios'] = Vedio.objects.filter(created_at=date.today())
     context['teachers_pending'] = check_techer_panding()
     context['students_pending'] = check_student_panding()
     if auth_fun.is_authenticate(request.user):

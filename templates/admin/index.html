@@ -2,21 +2,58 @@
 
 {% block content %}
 <div class="row">
-  <div class="col-md-6 text-center">
+  <div class="col-md-6 text-center mb-2">
     <div class="card">
-      <h2>50+</h2>
+      <h2>{{ students }}</h2>
       <h3 class="mt-2">Students</h3>
     </div>
 
   </div>
-  <div class="col-md-6 text-center">
+  <div class="col-md-6 text-center mb-2">
     <div class="card">
-      <h2>50+</h2>
+      <h2>{{ teachers }}</h2>
       <h3 class="mt-2">Teachers</h3>
     </div>
 
   </div>
 
+  <div class="col-md-12 text-center mb-2">
+    <div class="card">
+      <div class="card-header">
+        <h4>Today's Classes</h4>
+      </div>
+      <div class="card-body text-left">
+        {% for class in classes %}
+        <div class="border border-primary my-2 p-2">
+          <h5>{{ class.subject.batch.name }} - {{ class.subject.name }}</h5>
+          <h6>Teacher: {{ class.subject.teacher.name }}</h6>
+          <h6>Number of students: {{ class.subject.batch.user_set.count }}</h6>
+          <a href="{{ class.subject.url }}"> Classlink: {{ class.subject.url }}</a>
+        </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+  <div class="col-md-12 text-center mb-2">
+    <div class="card">
+      <div class="card-header">
+        <h4>Today's Uploaded Vedios</h4>
+      </div>
+      <div class="card-body text-left">
+        {% for vedio in vedios %}
+        <div class="border border-primary my-2 p-2">
+          <h5>{{ vedio.classlink.subject.batch.name }} - {{  vedio.classlink.subject.name }}</h5>
+          <h6>Teached by: {{ vedio.classlink.subject.teacher.name }}</h6>
+          <a href="{{ vedio.url }}"> Classlink: {{ vedio.url }}</a>
+        </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
 </div>
+
+
 
 {% endblock %}
