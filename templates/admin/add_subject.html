@@ -27,10 +27,10 @@
 
             </select>
           </div>
-          <div class="bg-light">
+          <div class="bg-light d-none" id="already_added_subjects">
             <h5>Already added subjects</h5>
             <ol id="added_subjects">
-              <li>Bangla</li>
+              <!-- <li>Bangla</li> -->
             </ol>
           </div>
           <div class="form-group">
@@ -69,6 +69,7 @@
       },
       dataType: 'json',
       success: function (data) {
+        $('#already_added_subjects').css('display','block');
         parse_data = jQuery.parseJSON(data)
         $.each(parse_data, function( index, value ) {
           $('#added_subjects').append('<li>' + value.fields.name +'</li>');
