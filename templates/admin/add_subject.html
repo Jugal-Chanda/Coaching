@@ -69,7 +69,7 @@
       },
       dataType: 'json',
       success: function (data) {
-        $('#already_added_subjects').css('display','block');
+        $('#already_added_subjects').removeClass("d-none");
         parse_data = jQuery.parseJSON(data)
         $.each(parse_data, function( index, value ) {
           $('#added_subjects').append('<li>' + value.fields.name +'</li>');
