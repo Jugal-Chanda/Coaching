@@ -72,7 +72,7 @@
     $('#subject_select').find('option:not(:first)').remove();
     var batch_id = $(this).children("option:selected").val();
     $.ajax({
-      url: "{% url 'batch_to_subjects' %}",
+      url: "{% url 'ajax_batch_to_subjects' %}",
       data: {
         'batch_id': batch_id,
       },
