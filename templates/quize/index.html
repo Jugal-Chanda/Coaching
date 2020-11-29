@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Admin</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!-- FontAwsome -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <!-- Moment.js -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+
+    <!-- Tempus Dominus Bootstrap 4 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha512-PMjWzHVtwxdq7m7GIxBot5vdxUY+5aKP9wpKtvnNBZrVv1srI8tU6xvFMzG8crLNcMj/8Xl/WWmo/oAP/40p1g==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha512-2JBCbWoMJPH+Uj7Wq5OLub8E5edWHlTM4ar/YJkZh3plwB2INhhOC3eDoqHm1Za/ZOSksrLlURLoyXVdfQXqwg==" crossorigin="anonymous"></script>
+
+  <body>
+    <div class="container-fluid">
+      <div class="row mt-1">
+        <!-- Student Profile -->
+        <div class="col-md-4 col-lg-2">
+          <div class="my-1">
+            <img src="{% static 'images/logo.png' %}" alt="" style="width: 100%; height: auto;">
+          </div>
+
+          <ul class="list-group mt-2">
+            <li class="list-group-item"> <a href="{% url 'adminHome' %}">Home</a></li>
+            <li class="list-group-item"> <a href="{% url 'students_pending' %}" class="{% if students_pending > 0 %}text-danger{% endif %}">Students Pending( {{ students_pending }} )</a></li>
+            <li class="list-group-item"> <a href="{% url 'teachers_pending' %}" class="{% if teachers_pending > 0 %}text-danger{% endif %}">Teachers Pending( {{ teachers_pending }} )</a> </li>
+            <li class="list-group-item"> <a href="{% url 'teachers' %}">Teachers</a> </li>
+            <li class="list-group-item"> <a href="{% url 'students' %}">Students</a></li>
+            <li class="list-group-item"> <a href="{% url 'add_batch' %}">Add Batch</a> </li>
+            <li class="list-group-item" > <a href="{% url 'all_batches' %}">Batches</a> </li>
+            <li class="list-group-item"> <a href="{% url 'subject_add' %}">Add Subject</a> </li>
+            <li class="list-group-item"> <a href="{% url 'assign_teacher_and_add_url' %}">Assign Teacher and class link</a> </li>
+            <li class="list-group-item"> <a href="{% url 'add_class_time' %}">Add Class Shedule</a> </li>
+            <li class="list-group-item"> <a href="{% url 'add_class' %}">Add Class Date</a> </li>
+            <li class="list-group-item"> <a href="{% url 'add_vedio' %}">Add Vedio</a> </li>
+            <li class="list-group-item"> <a href="{% url 'add_notice' %}">Add Notice</a> </li>
+            <li class="list-group-item" > <a href="{% url 'logout' %}">Logout</a></li>
+          </ul>
+
+        </div>
+        <div class="col-md-8 col-lg-10">
+
+          {% block content %}
+
+          {% endblock %}
+
+
+
+        </div>
+
+      </div>
+    </div>
+
+    {% block js_script %}
+
+    {% endblock %}
+  </body>
+</html>

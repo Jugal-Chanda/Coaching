@@ -51,7 +51,8 @@ INSTALLED_APPS = [
     'classlinks',
     'frontend',
     'notices',
-    'notification'
+    'notification',
+    'quize',
 ]
 
 MIDDLEWARE = [

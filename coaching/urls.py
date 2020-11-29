@@ -27,6 +27,7 @@ urlpatterns = [
     # path('class/', include('classlinks.urls')),
     path('vedios/', include('vedios.urls')),
     path('', include('frontend.urls')),
+    path('quizes/', include('quize.urls')),
     # path('notifications/', include('notify.urls', 'notifications')),
 
 ]
