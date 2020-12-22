@@ -1,78 +1,147 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
+<!doctype html>
+<html lang="En">
+<head>
     <meta charset="utf-8">
-    <title>Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSRF Token -->
+
+    <title>Question</title>
+
+    <!-- Scripts -->
+    <!-- <script src="{{ asset('js/app.js') }}" defer></script> -->
+
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
+
+    <!-- Styles -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+  </head>
+<body>
+  <div class="card">
+    <div class="card-header">Create new question</div>
 
-    <!-- FontAwsome -->
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
-    <!-- Moment.js -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-
-    <!-- Tempus Dominus Bootstrap 4 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/css/tempusdominus-bootstrap-4.min.css" integrity="sha512-PMjWzHVtwxdq7m7GIxBot5vdxUY+5aKP9wpKtvnNBZrVv1srI8tU6xvFMzG8crLNcMj/8Xl/WWmo/oAP/40p1g==" crossorigin="anonymous" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.1.2/js/tempusdominus-bootstrap-4.min.js" integrity="sha512-2JBCbWoMJPH+Uj7Wq5OLub8E5edWHlTM4ar/YJkZh3plwB2INhhOC3eDoqHm1Za/ZOSksrLlURLoyXVdfQXqwg==" crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" href="style.css">
-
-  <body>
-    <div class="container-fluid">
-      <div class="row mt-1">
-        <!-- Student Profile -->
-
-        <div class="col-md-6 offset-md-3">
-
-          <div class="card">
-
-            <div class="card-header">
-              <form class="" action="index.html" method="post">
-                <div class="form-group">
-                  <label for=""> <h2>Quize title</h2> </label>
-                  <input type="text" name="" value="" class=" form-control text_input">
-                </div>
-
-              </form>
-            </div>
-            <div class="card-body">
-              <div class="question">
-                <div class="form-group">
-                  <label for="">Question</label>
-                  <input type="text" name="" value="" class="form-control text_input ">
-                </div>
-              </div>
+    <div class="card-body question_conatiner">
+      <!-- Question -->
+      <div class="card mb-2 question_format d-none">
+        <div class="card-body">
+          <form class="" action="" method="post" data="">
+            <div class="form-group">
+              <label for="question">Question</label>
+              <textarea  id="question" name="question" class="form-control question_input" rows="8" cols="80"></textarea>
+              <label for="question_type">Question Type</label>
+              <select class="form-control" name="question_type">
+                <option value="short_answer">Short Answer</option>
+                <option value="multiple_choice">Multiple Choice</option>
+                <option value="check_box">Check Box</option>
+                <option value="paragraph">Paragraph</option>
+              </select>
               <div class="answer">
-                <div class="text_answer">
-                  <input type="text" name="" value="" class="form-control text_input" placeholder="Text answer">
+                <label for="answer">Answer</label>
+                <!--  For short answer type -->
+                <div class="mt-2 short_answer" style="">
+                  <input type="text" name=answer"" value="" class="form-control">
                 </div>
-                <div class="chekcbox_answer">
-                  <input type="checkbox" name="" value="" class=""> <input type="text" name="" value="" class="text_input">
-                </div>
-                <div class="multiplechoice_answer">
-                  <input type="radio" name="" value="" class=""> <input type="text" name="" value="" class="text_input">
-                </div>
-                <div class="dropdown_answer">
-                  <ol class="list-group" style="margin-left: 20px;">
-                    <li class=""> <input type="text" name="" value="" class="text_input"> </li>
-                  </ol>
-                </div>
+                <!--  For multiple choice answer type -->
+                <div class="mt-2 multiple_choice" style="display: none;">
+                  <div class="multiple_choice_answer_format mb-2">
+                    <input type="radio" name="" value=""><input type="text" name="options" value="" class="ml-2">
+                  </div>
+                  <button type="button" name="button" class="btn btn-sm btn-secondary border-0 add_another_option_btn">Add another option</button>
 
+                </div>
+                <!-- For checkbox input type -->
+                <div class="mt-2 checkbox" style="display: none;">
+                  <div class="checkbox_answer_format mb-2">
+                    <input type="checkbox" name="" value=""><input type="text" name="options" value="" class="ml-2">
+                  </div>
+                  <button type="button" name="button" class="btn btn-sm btn-secondary border-0 add_another_option_btn">Add another option</button>
+                </div>
+                <!-- For paragraph answer type -->
+                <div class="mt-2 paragraph" style="display: none;">
+                  <textarea  id="answer" name="answer" class="form-control question_answer" rows="8" cols="80"></textarea>
 
+                </div>
               </div>
+
+
             </div>
-
-          </div>
-
-
+          </form>
 
         </div>
 
+
       </div>
+
+      <div class="card mb-2 question_format">
+        <div class="card-body">
+          <form class="" action="" method="post" data="for_question">
+            <div class="form-group">
+              <label for="question">Question</label>
+              <textarea  id="question" name="question" class="form-control question_input" rows="8" cols="80"></textarea>
+              <label for="question_type">Question Type</label>
+              <select class="form-control" name="question_type">
+                <option value="short_answer">Short Answer</option>
+                <option value="multiple_choice">Multiple Choice</option>
+                <option value="check_box">Check Box</option>
+                <option value="paragraph">Paragraph</option>
+              </select>
+              <div class="answer">
+                <label for="answer">Answer</label>
+                <!--  For short answer type -->
+                <div class="mt-2 short_answer" style="">
+                  <input type="text" name=answer"" value="" class="form-control">
+                </div>
+                <!--  For multiple choice answer type -->
+                <div class="mt-2 multiple_choice" style="display: none;">
+                  <div class="multiple_choice_answer_format mb-2">
+                    <input type="radio" name="" value=""><input type="text" name="options" value="" class="ml-2">
+                  </div>
+                  <button type="button" name="button" class="btn btn-sm btn-secondary border-0 add_another_option_btn">Add another option</button>
+
+                </div>
+                <!-- For checkbox input type -->
+                <div class="mt-2 checkbox" style="display: none;">
+                  <div class="checkbox_answer_format mb-2">
+                    <input type="checkbox" name="" value=""><input type="text" name="options" value="" class="ml-2">
+                  </div>
+                  <button type="button" name="button" class="btn btn-sm btn-secondary border-0 add_another_option_btn">Add another option</button>
+                </div>
+                <!-- For paragraph answer type -->
+                <div class="mt-2 paragraph" style="display: none;">
+                  <textarea  id="answer" name="answer" class="form-control question_answer" rows="8" cols="80"></textarea>
+
+                </div>
+              </div>
+
+
+            </div>
+          </form>
+
+        </div>
+
+
+      </div>
+      <!-- End question -->
+
+
+
+
     </div>
-  </body>
+    <div class="card-footer">
+      <button type="button" name="button" class="btn btn-sm btn-secondary question_add_another_btn">Add Another Question</button>
+    </div>
+    <button type="button" name="button" class="question_save_btn btn btn-sm btn-success">Save</button>
+  </div>
+
+
+  <script type="text/javascript" src="question.js"></script>
+</body>
 </html>
